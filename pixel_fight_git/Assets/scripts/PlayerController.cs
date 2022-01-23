@@ -23,6 +23,10 @@ public class PlayerController : MonoBehaviour
     public float timeBetweenShots = .1f;
     private float shotCounter;
 
+    public float maxHeat = 12f, heatPerShot = 1f, coolRate = 2f, overHeatCoolrate = 4f;
+    private float heatCounter;
+    private bool overHeated;
+
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
@@ -73,22 +77,33 @@ public class PlayerController : MonoBehaviour
 
         charCon.Move(movement * Time.deltaTime);
 
-        if (Input.GetMouseButtonDown(0))
-        {
-            Shoot();
-        }
+        if (!overHeated) { 
 
-        if (Input.GetMouseButton(0))
-        {
-            shotCounter -= Time.deltaTime;
-
-            if(shotCounter <= 0)
+            if (Input.GetMouseButtonDown(0))
             {
+            Shoot();
+             }
+
+              if (Input.GetMouseButton(0))
+             {
+                  shotCounter -= Time.deltaTime;
+
+                  if(shotCounter <= 0)
+                 {
                 Shoot();
+                  }
+             }
+              if(heatCounter > 0) { 
+            heatCounter -= coolRate * Time.deltaTime;
+            }
+        } else
+        {
+            heatCounter -= overHeatCoolrate * Time.deltaTime;
+            if (heatCounter <= 0)
+            {
+                overHeated = false;
             }
         }
-
-
 
 
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -119,6 +134,14 @@ public class PlayerController : MonoBehaviour
         }
 
         shotCounter = timeBetweenShots;
+
+        heatCounter += heatPerShot;
+        if(heatCounter >= maxHeat)
+        {
+            heatCounter = maxHeat;
+
+            overHeated = true;
+        }
     }
 
     private void LateUpdate()
