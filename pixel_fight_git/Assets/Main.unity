@@ -336,9 +336,10 @@ MonoBehaviour:
   moveSpeed: 4
   runSpeed: 8
   charCon: {fileID: 238328581}
-  jumpForce: 10
+  jumpForce: 8
   gravityMod: 2
   bulletImpact: {fileID: 2683570732475547624, guid: a9c28c881745f6f4f9b00323973812b0, type: 3}
+  timeBetweenShots: 0.2
 --- !u!143 &238328581
 CharacterController:
   m_ObjectHideFlags: 0

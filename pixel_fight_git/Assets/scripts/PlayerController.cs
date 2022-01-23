@@ -20,7 +20,8 @@ public class PlayerController : MonoBehaviour
     public float jumpForce = 10f, gravityMod = 2f;
 
     public GameObject bulletImpact;
-
+    public float timeBetweenShots = .1f;
+    private float shotCounter;
 
     void Start()
     {
@@ -77,6 +78,19 @@ public class PlayerController : MonoBehaviour
             Shoot();
         }
 
+        if (Input.GetMouseButton(0))
+        {
+            shotCounter -= Time.deltaTime;
+
+            if(shotCounter <= 0)
+            {
+                Shoot();
+            }
+        }
+
+
+
+
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             Cursor.lockState = CursorLockMode.None;
@@ -103,6 +117,8 @@ public class PlayerController : MonoBehaviour
 
             Destroy(bulletImpactObject, 10f);
         }
+
+        shotCounter = timeBetweenShots;
     }
 
     private void LateUpdate()
