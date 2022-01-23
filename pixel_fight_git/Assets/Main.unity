@@ -340,6 +340,10 @@ MonoBehaviour:
   gravityMod: 2
   bulletImpact: {fileID: 2683570732475547624, guid: a9c28c881745f6f4f9b00323973812b0, type: 3}
   timeBetweenShots: 0.2
+  maxHeat: 12
+  heatPerShot: 1
+  coolRate: 2
+  overHeatCoolrate: 4
 --- !u!143 &238328581
 CharacterController:
   m_ObjectHideFlags: 0
