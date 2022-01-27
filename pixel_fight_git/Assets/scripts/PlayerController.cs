@@ -32,6 +32,8 @@ public class PlayerController : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
 
         cam = Camera.main;
+
+        overheated.instance.TempSlider.maxValue = maxHeat;
     }
 
 
@@ -106,6 +108,8 @@ public class PlayerController : MonoBehaviour
                 overheated.instance.overheatedMessage.gameObject.SetActive(false);
             }
         }
+
+        overheated.instance.TempSlider.value = heatCounter;
 
 
         if (Input.GetKeyDown(KeyCode.Escape))
