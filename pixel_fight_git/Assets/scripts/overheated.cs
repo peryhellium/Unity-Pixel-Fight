@@ -17,6 +17,7 @@ public class overheated : MonoBehaviour
 
     public TMP_Text overheatedMessage;
     public Slider TempSlider;
+    public Image crosshair;
 
     
     void Start()
