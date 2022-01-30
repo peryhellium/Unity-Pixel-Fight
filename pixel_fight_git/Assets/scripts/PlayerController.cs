@@ -189,6 +189,13 @@ public class PlayerController : MonoBehaviour
             GameObject bulletImpactObject = Instantiate(bulletImpact, hit.point + (hit.normal * .002f), Quaternion.LookRotation(hit.normal, Vector3.up));
 
             Destroy(bulletImpactObject, 10f);
+
+            GameObject hitObject = hit.transform.gameObject;
+            ReactiveTarget target = hitObject.GetComponent<ReactiveTarget>();
+            if (target != null)
+            {
+                target.ReactToHit();
+            }
         }
 
         shotCounter = allGuns[selectedGun].timeBetweenShots;
