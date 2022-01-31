@@ -18,13 +18,15 @@ public class ReactiveTarget : MonoBehaviour
 
     private IEnumerator Die()
     {
-        this.transform.Rotate(-85, 0, 0);
+        this.transform.Rotate(-90, 0, 0);
 
-        this.transform.Translate(0, -7, 0);
+        this.transform.Translate(0, 0, -0.5f);
 
         yield return new WaitForSeconds(1.5f);
 
         Destroy(this.gameObject);
+
+        
     }
     void Start()
     {
