@@ -12,6 +12,13 @@ public class AnotherAI : MonoBehaviour
 
     public LayerMask whatIsGround, whatIsPlayer;
 
+    public Guns Gun;
+
+    public float muzzleDisplayTime;
+    private float muzzleCounter;
+
+    private float cooldown = 0f;
+
     //Patroling
     public Vector3 walkPoint;
     bool walkPointSet;
@@ -24,34 +31,42 @@ public class AnotherAI : MonoBehaviour
     //States 
     public float sightRange, attackRange;
     public bool playerInSightRange, playerInAttackRange;
+    private bool _alive;
 
     private void Awake()
     {
+        
         player = GameObject.Find("Player").transform;
-        agent = GetComponent<NavMeshAgent>();
+        if (_alive) {
+
+            agent = GetComponent<NavMeshAgent>();
+        }
     }
 
 
     void Start()
     {
-        
+        _alive = true;
     }
 
 
     void Update()
     {
+        if (_alive)
+        {
+            playerInSightRange = Physics.CheckSphere(transform.position, sightRange, whatIsPlayer);
+            playerInAttackRange = Physics.CheckSphere(transform.position, attackRange, whatIsPlayer);
 
-        playerInSightRange = Physics.CheckSphere(transform.position, sightRange, whatIsPlayer);
-        playerInAttackRange = Physics.CheckSphere(transform.position, attackRange, whatIsPlayer);
-
-        if (!playerInAttackRange && !playerInSightRange) Patroling();
-        if (playerInSightRange && !playerInAttackRange) ChasePlayer();
-        if (playerInAttackRange && playerInSightRange) AttackPlayer();
+            if (!playerInAttackRange && !playerInSightRange) Patroling();
+            if (playerInSightRange && !playerInAttackRange) ChasePlayer();
+            if (playerInAttackRange && playerInSightRange) AttackPlayer();
+        }
     }
 
     private void Patroling()
     {
-        if (!walkPointSet) SearchWalkPoint();
+        if (_alive) { 
+            if (!walkPointSet) SearchWalkPoint();
 
         if (walkPointSet)
             agent.SetDestination(walkPoint);
@@ -60,37 +75,65 @@ public class AnotherAI : MonoBehaviour
 
         if (distanceToWalkPoint.magnitude < 1f)
             walkPointSet = false;
+        }
     }
 
     private void SearchWalkPoint()
     {
-        float randomZ = Random.Range(-walkPointRange, walkPointRange);
-        float randomX = Random.Range(-walkPointRange, walkPointRange);
-
-        walkPoint = new Vector3(transform.position.x + randomX, transform.position.y, transform.position.z + randomZ);
-
-        if (Physics.Raycast(walkPoint, -transform.up, 2f, whatIsGround))
+        if (_alive)
         {
-            walkPointSet = true;
+            float randomZ = Random.Range(-walkPointRange, walkPointRange);
+            float randomX = Random.Range(-walkPointRange, walkPointRange);
+
+            walkPoint = new Vector3(transform.position.x + randomX, transform.position.y, transform.position.z + randomZ);
+
+            if (Physics.Raycast(walkPoint, -transform.up, 2f, whatIsGround))
+            {
+                walkPointSet = true;
+            }
         }
     }
 
     private void ChasePlayer()
     {
-        agent.SetDestination(player.position);
-        transform.LookAt(player);
+        if (_alive) { 
+            agent.SetDestination(player.position);
+            transform.LookAt(player);
+        }
     }
     private void AttackPlayer()
     {
-        agent.SetDestination(transform.position);
-
-        transform.LookAt(player);
-
-        if (!alreadyAttacked)
+        if (_alive)
         {
-            // Attack code here
-            alreadyAttacked = true;
-            Invoke(nameof(ResetAttack), timeBetweenAttacks);
+            agent.SetDestination(transform.position);
+
+            transform.LookAt(player);
+
+
+            if (!alreadyAttacked)
+            {
+                Gun.muzzleFlash.SetActive(true);
+                Gun.muzzleFlash.SetActive(false);
+                Gun.muzzleFlash.SetActive(true);
+
+
+                /*muzzleCounter = muzzleDisplayTime;
+
+                if (Gun.muzzleFlash.activeInHierarchy)
+                {
+                    muzzleCounter -= Time.deltaTime;
+
+                    if (muzzleCounter <= 0)
+                    {
+                        Gun.muzzleFlash.SetActive(false);
+                    }
+                }*/
+                alreadyAttacked = true;
+                Invoke(nameof(ResetAttack), timeBetweenAttacks);
+
+                //Debug.Log("shot!");
+
+            }
         }
     }
 
@@ -105,6 +148,26 @@ public class AnotherAI : MonoBehaviour
         Gizmos.DrawWireSphere(transform.position, attackRange);
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, sightRange);
+    }
+
+    public void ReactToHit()
+    {
+        _alive = false;
+        StartCoroutine(Die());
+
+    }
+
+    private IEnumerator Die()
+    {
+        /*this.transform.Rotate(-90, 0, 0);
+
+        this.transform.Translate(0, 0, 0);*/
+
+        yield return new WaitForSeconds(0.5f);
+
+        Destroy(this.gameObject);
+
+
     }
 
 }
