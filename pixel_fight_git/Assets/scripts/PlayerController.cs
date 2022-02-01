@@ -18,6 +18,9 @@ public class PlayerController : MonoBehaviour
     private Camera cam;
 
     public float jumpForce = 10f, gravityMod = 2f;
+    public Transform groundCheckPoint;
+    private bool isGrounded;
+    public LayerMask groundLayers;
 
     public GameObject bulletImpact;
     //public float timeBetweenShots = .1f;
@@ -32,6 +35,8 @@ public class PlayerController : MonoBehaviour
 
     public Guns[] allGuns;
     private int selectedGun;
+
+    public Animator anim;
 
     void Start()
     {
@@ -80,7 +85,9 @@ public class PlayerController : MonoBehaviour
             movement.y = 0f;
         }
 
-        if (Input.GetButtonDown("Jump") && charCon.isGrounded)
+        isGrounded = Physics.Raycast(groundCheckPoint.position, Vector3.down, .25f, groundLayers);
+
+        if (Input.GetButtonDown("Jump") && isGrounded)
         {
             movement.y = jumpForce;
         }
@@ -100,7 +107,10 @@ public class PlayerController : MonoBehaviour
                 allGuns[selectedGun].muzzleFlash.SetActive(false);
             }
         }
-        
+
+        anim.SetBool("grounded", isGrounded);
+        anim.SetFloat("speed", moveDir.magnitude);
+
 
         if (!overHeated) {
 
@@ -163,6 +173,8 @@ public class PlayerController : MonoBehaviour
             SwitchGun();
         }
 
+        
+
 
         if (Input.GetKeyDown(KeyCode.Escape))
         {
@@ -190,7 +202,7 @@ public class PlayerController : MonoBehaviour
             Destroy(bulletImpactObject, 10f);
 
             GameObject hitObject = hit.transform.gameObject;
-            ReactiveTarget target = hitObject.GetComponent<ReactiveTarget>();
+            AnotherAI target = hitObject.GetComponent<AnotherAI>();
             if (target != null)
             {
                 target.ReactToHit();
