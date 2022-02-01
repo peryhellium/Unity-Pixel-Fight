@@ -12,6 +12,13 @@ public class AnotherAI : MonoBehaviour
 
     public LayerMask whatIsGround, whatIsPlayer;
 
+    public Guns Gun;
+
+    public float muzzleDisplayTime;
+    private float muzzleCounter;
+
+    private float cooldown = 0f;
+
     //Patroling
     public Vector3 walkPoint;
     bool walkPointSet;
@@ -86,11 +93,30 @@ public class AnotherAI : MonoBehaviour
 
         transform.LookAt(player);
 
+
         if (!alreadyAttacked)
         {
-            // Attack code here
+            Gun.muzzleFlash.SetActive(true);
+            Gun.muzzleFlash.SetActive(false);
+            Gun.muzzleFlash.SetActive(true);
+
+
+            /*muzzleCounter = muzzleDisplayTime;
+
+            if (Gun.muzzleFlash.activeInHierarchy)
+            {
+                muzzleCounter -= Time.deltaTime;
+
+                if (muzzleCounter <= 0)
+                {
+                    Gun.muzzleFlash.SetActive(false);
+                }
+            }*/
             alreadyAttacked = true;
             Invoke(nameof(ResetAttack), timeBetweenAttacks);
+
+            Debug.Log("shot!");
+            
         }
     }
 
