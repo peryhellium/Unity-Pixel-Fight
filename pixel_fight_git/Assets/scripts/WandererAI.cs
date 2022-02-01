@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class WandererAI : MonoBehaviour
 {
     public float speed = 3.0f;
@@ -11,6 +12,10 @@ public class WandererAI : MonoBehaviour
     int maxDist = 12;
     int stopDist = 6;
 
+    private Vector3 movement;
+    
+    //public float gravityMod = 4f;
+
 
     void Start()
     {
@@ -19,6 +24,7 @@ public class WandererAI : MonoBehaviour
     
     void Update()
     {
+        movement.y += Physics.gravity.y;
         if (_alive) {
 
             if (Vector3.Distance(transform.position, Player.position) <= maxDist && (Vector3.Distance(transform.position, Player.position) > stopDist)) { 
@@ -56,10 +62,16 @@ public class WandererAI : MonoBehaviour
 
             }
 
-        }
+            //float yVel = movement.y;
 
-      
-        
+            //movement = ((transform.forward * moveDir.z) + (transform.right * moveDir.x)).normalized;
+
+            //movement.y = yVel;
+
+            
+
+        }
+                
     }
 
     
