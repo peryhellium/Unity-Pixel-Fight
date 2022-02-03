@@ -38,6 +38,9 @@ public class AnotherAI : MonoBehaviour
     public LayerMask groundLayers;
     public Transform groundCheckPoint;
 
+    public Material[] allSkins;
+    public GameObject playerModel;
+
     private void Awake()
     {
         
@@ -52,6 +55,8 @@ public class AnotherAI : MonoBehaviour
     void Start()
     {
         _alive = true;
+        playerModel.GetComponent<Renderer>().material = allSkins[Random.Range(1, 8)];
+        
     }
 
 
