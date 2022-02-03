@@ -52,6 +52,7 @@ public class PlayerController : MonoBehaviour
       
 
 
+
     }
 
 
@@ -62,7 +63,7 @@ public class PlayerController : MonoBehaviour
         transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, transform.rotation.eulerAngles.y + mouseInput.x, transform.rotation.eulerAngles.z);
 
         verticalRotStore += mouseInput.y;
-        verticalRotStore = Mathf.Clamp(verticalRotStore, -45f, 45f);
+        verticalRotStore = Mathf.Clamp(verticalRotStore, -60f, 60f);
 
         viewPoint.rotation = Quaternion.Euler(-verticalRotStore, viewPoint.rotation.eulerAngles.y, viewPoint.rotation.eulerAngles.z);
 
@@ -224,9 +225,9 @@ public class PlayerController : MonoBehaviour
 
             overHeated = true;
 
-            overheated.instance.overheatedMessage.gameObject.SetActive(true);
+            //overheated.instance.overheatedMessage.gameObject.SetActive(true);
 
-            overheated.instance.crosshair.gameObject.SetActive(false);
+            //overheated.instance.crosshair.gameObject.SetActive(false);
         }
 
         allGuns[selectedGun].muzzleFlash.SetActive(true);
