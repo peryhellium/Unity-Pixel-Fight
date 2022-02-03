@@ -37,6 +37,7 @@ public class PlayerController : MonoBehaviour
     private int selectedGun;
 
     public Animator anim;
+    public GameObject playerModel;
 
     void Start()
     {
@@ -47,6 +48,8 @@ public class PlayerController : MonoBehaviour
         overheated.instance.TempSlider.maxValue = maxHeat;
 
         SwitchGun();
+
+      
 
 
     }
