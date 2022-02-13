@@ -17,7 +17,7 @@ public class AnotherAI : MonoBehaviour
     public float muzzleDisplayTime;
     private float muzzleCounter;
 
-    private float cooldown = 0f;
+    //private float cooldown = 0f;
 
     //Patroling
     public Vector3 walkPoint;
@@ -33,6 +33,14 @@ public class AnotherAI : MonoBehaviour
     public bool playerInSightRange, playerInAttackRange;
     private bool _alive;
 
+    public Animator anim;
+    private bool isGrounded;
+    public LayerMask groundLayers;
+    public Transform groundCheckPoint;
+
+    public Material[] allSkins;
+    public GameObject playerModel;
+
     private void Awake()
     {
         
@@ -47,6 +55,8 @@ public class AnotherAI : MonoBehaviour
     void Start()
     {
         _alive = true;
+        playerModel.GetComponent<Renderer>().material = allSkins[Random.Range(1, 8)];
+        
     }
 
 
@@ -61,6 +71,8 @@ public class AnotherAI : MonoBehaviour
             if (playerInSightRange && !playerInAttackRange) ChasePlayer();
             if (playerInAttackRange && playerInSightRange) AttackPlayer();
         }
+
+        
     }
 
     private void Patroling()
@@ -87,6 +99,11 @@ public class AnotherAI : MonoBehaviour
 
             walkPoint = new Vector3(transform.position.x + randomX, transform.position.y, transform.position.z + randomZ);
 
+            isGrounded = Physics.Raycast(groundCheckPoint.position, Vector3.down, .25f, groundLayers);
+
+            anim.SetBool("grounded", isGrounded);
+            anim.SetFloat("speed", walkPoint.magnitude);
+
             if (Physics.Raycast(walkPoint, -transform.up, 2f, whatIsGround))
             {
                 walkPointSet = true;
@@ -99,6 +116,17 @@ public class AnotherAI : MonoBehaviour
         if (_alive) { 
             agent.SetDestination(player.position);
             transform.LookAt(player);
+
+           
+
+           isGrounded = Physics.Raycast(groundCheckPoint.position, Vector3.down, .25f, groundLayers);
+
+           anim.SetBool("grounded", isGrounded);
+           anim.SetFloat("speed", 1f);
+            
+            
+
+
         }
     }
     private void AttackPlayer()
@@ -108,6 +136,9 @@ public class AnotherAI : MonoBehaviour
             agent.SetDestination(transform.position);
 
             transform.LookAt(player);
+
+            anim.SetBool("grounded", isGrounded);
+            anim.SetFloat("speed", 0f);
 
 
             if (!alreadyAttacked)
