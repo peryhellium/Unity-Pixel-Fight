@@ -194,7 +194,7 @@ public class AnotherAI : MonoBehaviour
 
         this.transform.Translate(0, 0, 0);*/
 
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.1f);
 
         Destroy(this.gameObject);
 

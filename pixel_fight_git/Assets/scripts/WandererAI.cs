@@ -68,13 +68,10 @@ public class WandererAI : MonoBehaviour
 
             //movement.y = yVel;
 
-            
 
         }
                 
     }
-
-    
 
     public void SetAlive (bool alive)
     {
