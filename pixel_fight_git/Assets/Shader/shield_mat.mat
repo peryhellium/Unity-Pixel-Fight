@@ -43,8 +43,8 @@ Material:
     - _ColorPower: 2
     - _VertexFreq: 3
     m_Colors:
-    - _BackColor: {r: 0.56078434, g: 0.05882353, b: 0.7490196, a: 0.40392157}
-    - _Colorv2: {r: 0.5660377, g: 0.6415094, b: 0, a: 1}
-    - _FrontColor: {r: 0, g: 12.383078, b: 24.150944, a: 0.772549}
-    - _VertexAmount: {r: 0.12, g: 0.12, b: 0.12, a: 0}
+    - _BackColor: {r: 0.7490196, g: 0.12941177, b: 0.05882353, a: 0.25490198}
+    - _Colorv2: {r: 4.5176473, g: 5.145098, b: 0, a: 1}
+    - _FrontColor: {r: 0, g: 1.7702266, b: 23.771614, a: 0.772549}
+    - _VertexAmount: {r: 0.1, g: 0.1, b: 0.1, a: 0}
   m_BuildTextureStacks: []

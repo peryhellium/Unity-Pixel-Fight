@@ -49,9 +49,9 @@ public class PlayerController : MonoBehaviour
 
         SwitchGun();
 
-      
-
-
+        Transform newTrans = SpawnManager.instance.GetSpawnPoint();
+        transform.position = newTrans.position;
+        transform.rotation = newTrans.rotation;
 
     }
 
