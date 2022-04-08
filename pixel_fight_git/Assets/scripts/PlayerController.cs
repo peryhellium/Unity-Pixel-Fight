@@ -112,8 +112,8 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        anim.SetBool("grounded", isGrounded);
-        anim.SetFloat("speed", moveDir.magnitude);
+        //anim.SetBool("grounded", isGrounded);
+        //anim.SetFloat("speed", moveDir.magnitude);
 
 
         if (!overHeated) {
