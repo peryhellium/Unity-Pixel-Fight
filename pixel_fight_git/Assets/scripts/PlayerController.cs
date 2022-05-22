@@ -251,7 +251,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
             overHeated = true;
 
-            //overheated.instance.overheatedMessage.gameObject.SetActive(true);
+            overheated.instance.overheatedMessage.gameObject.SetActive(true);
 
             //overheated.instance.crosshair.gameObject.SetActive(false);
         }
@@ -266,7 +266,18 @@ public class PlayerController : MonoBehaviourPunCallbacks
     [PunRPC]
     public void DealDamage(string damager)
     {
-        Debug.Log("I've been hit" + damager);
+        TakeDamage(damager);
+    }
+
+    public void TakeDamage(string damager)
+    {
+
+        if (photonView.IsMine) {
+            //Debug.Log(photonView.Owner.NickName + "has been hit by: " + damager);
+
+            MultiplayerSpawner.instance.Die(damager);
+     
+        }
     }
 
     private void LateUpdate()
