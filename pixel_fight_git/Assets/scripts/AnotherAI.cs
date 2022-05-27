@@ -44,11 +44,11 @@ public class AnotherAI : MonoBehaviour
     private void Awake()
     {
         
-        player = GameObject.Find("Player").transform;
-        if (_alive) {
+        //player = GameObject.Find("Player").transform;
+        //if (_alive) {
 
-            agent = GetComponent<NavMeshAgent>();
-        }
+        //    agent = GetComponent<NavMeshAgent>();
+       // }
     }
 
 
