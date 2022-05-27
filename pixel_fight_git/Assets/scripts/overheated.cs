@@ -22,6 +22,8 @@ public class overheated : MonoBehaviour
     public GameObject deathScreen;
     public TMP_Text deathText;
     public TMP_Text timerText;
+
+    public Slider healthSlider;
     
     void Start()
     {

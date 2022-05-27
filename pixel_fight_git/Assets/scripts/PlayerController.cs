@@ -42,6 +42,9 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
     public GameObject playerHitImpact;
 
+    public int maxHealth = 100;
+    private int currentHealth;
+
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
@@ -55,6 +58,11 @@ public class PlayerController : MonoBehaviourPunCallbacks
         //Transform newTrans = SpawnManager.instance.GetSpawnPoint();
         //transform.position = newTrans.position;
         //transform.rotation = newTrans.rotation;
+
+        currentHealth = maxHealth;
+
+        overheated.instance.healthSlider.maxValue = maxHealth;
+        overheated.instance.healthSlider.value = currentHealth;
 
     }
 
@@ -221,7 +229,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
                 PhotonNetwork.Instantiate(playerHitImpact.name, hit.point, Quaternion.identity);
 
-                hit.collider.gameObject.GetPhotonView().RPC("DealDamage", RpcTarget.All, photonView.Owner.NickName);
+                hit.collider.gameObject.GetPhotonView().RPC("DealDamage", RpcTarget.All, photonView.Owner.NickName, allGuns[selectedGun].shotDamage);
 
 
             } else {
@@ -264,19 +272,28 @@ public class PlayerController : MonoBehaviourPunCallbacks
     }
 
     [PunRPC]
-    public void DealDamage(string damager)
+    public void DealDamage(string damager, int damageAmount)
     {
-        TakeDamage(damager);
+        TakeDamage(damager, damageAmount);
     }
 
-    public void TakeDamage(string damager)
+    public void TakeDamage(string damager, int damageAmount)
     {
 
         if (photonView.IsMine) {
             //Debug.Log(photonView.Owner.NickName + "has been hit by: " + damager);
 
-            MultiplayerSpawner.instance.Die(damager);
-     
+            currentHealth -= damageAmount;
+
+            if (currentHealth <= 0)
+            {
+                currentHealth = 0;
+                MultiplayerSpawner.instance.Die(damager);
+            }
+
+            overheated.instance.healthSlider.value = currentHealth;
+
+
         }
     }
 

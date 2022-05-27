@@ -52,6 +52,7 @@ MonoBehaviour:
   heatPerShot: 1
   muzzleFlash: {fileID: 2035412995987226945}
   shotSound: {fileID: 8002108894233530318}
+  shotDamage: 20
 --- !u!82 &8002108894233530318
 AudioSource:
   m_ObjectHideFlags: 0
@@ -174,7 +175,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2034363310672368138}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.34, z: 0.35}
+  m_LocalPosition: {x: -0, y: 0.34, z: 0.25}
   m_LocalScale: {x: 0.6990273, y: 0.4191089, z: 0.5040828}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -283,6 +284,7 @@ MonoBehaviour:
   heatPerShot: 10
   muzzleFlash: {fileID: 2035412994443915922}
   shotSound: {fileID: 8002108893191242085}
+  shotDamage: 40
 --- !u!82 &8002108893191242085
 AudioSource:
   m_ObjectHideFlags: 0
@@ -523,6 +525,7 @@ MonoBehaviour:
   anim: {fileID: 8755167149302428974}
   playerModel: {fileID: 0}
   playerHitImpact: {fileID: 2683570732475547624, guid: f0163c5e30f3f3f4a9c8abd37ce3b3c0, type: 3}
+  maxHealth: 100
 --- !u!143 &2034363310731469972
 CharacterController:
   m_ObjectHideFlags: 0
@@ -698,6 +701,7 @@ MonoBehaviour:
   heatPerShot: 1.6
   muzzleFlash: {fileID: 2035412995412094616}
   shotSound: {fileID: 8002108893429877431}
+  shotDamage: 15
 --- !u!82 &8002108893429877431
 AudioSource:
   m_ObjectHideFlags: 0
@@ -846,6 +850,7 @@ MonoBehaviour:
   heatPerShot: 1
   muzzleFlash: {fileID: 2035412995999088280}
   shotSound: {fileID: 8002108893369973226}
+  shotDamage: 10
 --- !u!82 &8002108893369973226
 AudioSource:
   m_ObjectHideFlags: 0
@@ -994,6 +999,7 @@ MonoBehaviour:
   heatPerShot: 3.5
   muzzleFlash: {fileID: 2035412995790960522}
   shotSound: {fileID: 8002108893722581843}
+  shotDamage: 30
 --- !u!82 &8002108893722581843
 AudioSource:
   m_ObjectHideFlags: 0
@@ -1842,6 +1848,7 @@ MonoBehaviour:
   heatPerShot: 1
   muzzleFlash: {fileID: 0}
   shotSound: {fileID: 0}
+  shotDamage: 0
 --- !u!1001 &2034363311555066998
 PrefabInstance:
   m_ObjectHideFlags: 0
