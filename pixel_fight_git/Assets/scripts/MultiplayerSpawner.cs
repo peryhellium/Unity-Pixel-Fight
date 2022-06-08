@@ -73,13 +73,10 @@ public class MultiplayerSpawner : MonoBehaviour
     {
         if (isDead == true)
         {
-            //overheated.instance.timerText.text = (respawnTime -= Time.deltaTime).ToString();
-            //respawnTime = respawnTime + 1f;
+
             respawnTime -= Time.deltaTime;
 
             string seconds = Mathf.FloorToInt(respawnTime % 60 + 1).ToString("0");
-
-           
 
             overheated.instance.timerText.text = seconds;
         }
