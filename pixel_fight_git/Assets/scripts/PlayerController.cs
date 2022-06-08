@@ -127,23 +127,24 @@ public class PlayerController : MonoBehaviourPunCallbacks
         movement.y += Physics.gravity.y * Time.deltaTime * gravityMod;
 
         charCon.Move(movement * Time.deltaTime);
-
-        //overheating
-
-        if (allGuns[selectedGun].muzzleFlash.activeInHierarchy)
-        {
-            muzzleCounter -= Time.deltaTime;
-
-            if (muzzleCounter <= 0)
+        
+            //muzzle 
+            if (allGuns[selectedGun].muzzleFlash.activeInHierarchy)
             {
-                allGuns[selectedGun].muzzleFlash.SetActive(false);
+                muzzleCounter -= Time.deltaTime;
+
+                if (muzzleCounter <= 0)
+                {
+                    allGuns[selectedGun].muzzleFlash.SetActive(false);
+                }
             }
-        }
 
 
 
 
-        if (!overHeated) {
+
+
+            if (!overHeated) {
 
             if (Input.GetMouseButtonDown(0) && cooldown <= 0)
             {
@@ -233,7 +234,8 @@ public class PlayerController : MonoBehaviourPunCallbacks
         anim.SetFloat("speed", moveDir.magnitude);
     }
 
-    private void Shoot()
+
+    void Shoot()
     {
         Ray ray = cam.ViewportPointToRay(new Vector3(.5f, .5f, 0));
         ray.origin = cam.transform.position;
@@ -284,12 +286,34 @@ public class PlayerController : MonoBehaviourPunCallbacks
             //overheated.instance.crosshair.gameObject.SetActive(false);
         }
 
-        allGuns[selectedGun].muzzleFlash.SetActive(true);
-        muzzleCounter = muzzleDisplayTime;
+        photonView.RPC("ShootingSound", RpcTarget.All);
 
+        photonView.RPC("MuzzleFlashing", RpcTarget.All);
+
+    }
+
+    [PunRPC]
+    public void ShootingSound()
+    {
         allGuns[selectedGun].shotSound.Stop();
         allGuns[selectedGun].shotSound.Play();
     }
+
+    [PunRPC]
+    public void MuzzleFlashing()
+    {
+        allGuns[selectedGun].muzzleFlash.SetActive(true);
+        //muzzleCounter = muzzleDisplayTime;
+        StartCoroutine(Muzzle());
+
+    }
+
+    private IEnumerator Muzzle()
+    {
+        yield return new WaitForSeconds(0.5f);
+        allGuns[selectedGun].muzzleFlash.SetActive(false);
+    }
+
 
     [PunRPC]
     public void DealDamage(string damager, int damageAmount)
