@@ -6,6 +6,7 @@ using Photon.Pun;
 public class PlayerController : MonoBehaviourPunCallbacks
 {
     public Transform viewPoint;
+    //public Transform rigthArm;
     public float mouseSensitivity = 1f;
     private float verticalRotStore;
     private Vector2 mouseInput;
@@ -40,11 +41,13 @@ public class PlayerController : MonoBehaviourPunCallbacks
     public Animator anim;
     public GameObject playerModel;
     public Transform modelGunPoint, gunHolder;
-
+    
     public GameObject playerHitImpact;
 
     public int maxHealth = 100;
     private int currentHealth;
+
+    public Material[] allSkins;
 
     void Start()
     {
@@ -68,7 +71,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
         if (photonView.IsMine)
         {
-            playerModel.SetActive(false);
+            //playerModel.SetActive(false);
 
             overheated.instance.healthSlider.maxValue = maxHealth;
             overheated.instance.healthSlider.value = currentHealth;
@@ -78,6 +81,8 @@ public class PlayerController : MonoBehaviourPunCallbacks
             gunHolder.localPosition = Vector3.zero;
             gunHolder.localRotation = Quaternion.identity;
         }
+
+        playerModel.GetComponent<Renderer>().material = allSkins[photonView.Owner.ActorNumber % allSkins.Length];
 
     }
 
@@ -94,6 +99,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
         verticalRotStore = Mathf.Clamp(verticalRotStore, -60f, 60f);
 
         viewPoint.rotation = Quaternion.Euler(-verticalRotStore, viewPoint.rotation.eulerAngles.y, viewPoint.rotation.eulerAngles.z);
+
 
         moveDir = new Vector3(Input.GetAxisRaw("Horizontal"), 0f, Input.GetAxisRaw("Vertical"));
 
@@ -138,10 +144,6 @@ public class PlayerController : MonoBehaviourPunCallbacks
                     allGuns[selectedGun].muzzleFlash.SetActive(false);
                 }
             }
-
-
-
-
 
 
             if (!overHeated) {
