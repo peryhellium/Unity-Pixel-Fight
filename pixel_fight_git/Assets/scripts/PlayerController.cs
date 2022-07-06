@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using Photon.Pun;
 
 public class PlayerController : MonoBehaviourPunCallbacks
@@ -57,6 +58,9 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
         overheated.instance.TempSlider.maxValue = maxHeat;
 
+        
+
+
         //SwitchGun();
 
         photonView.RPC("SetGun", RpcTarget.All, selectedGun);
@@ -73,8 +77,14 @@ public class PlayerController : MonoBehaviourPunCallbacks
         {
             //playerModel.SetActive(false);
 
-            overheated.instance.healthSlider.maxValue = maxHealth;
-            overheated.instance.healthSlider.value = currentHealth;
+            //overheated.instance.healthSlider.maxValue = maxHealth;
+           //overheated.instance.healthSlider.value = currentHealth;
+
+
+
+
+            overheated.instance.healthNumber.text = currentHealth.ToString();
+
         } else
         {
             gunHolder.parent = modelGunPoint;
@@ -186,6 +196,8 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
         overheated.instance.TempSlider.value = heatCounter;
 
+        
+
         //switch guns
         if (Input.GetAxisRaw("Mouse ScrollWheel") > 0f)
         {
@@ -253,7 +265,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
                 PhotonNetwork.Instantiate(playerHitImpact.name, hit.point, Quaternion.identity);
 
-                hit.collider.gameObject.GetPhotonView().RPC("DealDamage", RpcTarget.All, photonView.Owner.NickName, allGuns[selectedGun].shotDamage);
+                hit.collider.gameObject.GetPhotonView().RPC("DealDamage", RpcTarget.All, photonView.Owner.NickName, allGuns[selectedGun].shotDamage, PhotonNetwork.LocalPlayer.ActorNumber);
 
 
             } else {
@@ -318,12 +330,12 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
 
     [PunRPC]
-    public void DealDamage(string damager, int damageAmount)
+    public void DealDamage(string damager, int damageAmount, int actor)
     {
-        TakeDamage(damager, damageAmount);
+        TakeDamage(damager, damageAmount, actor);
     }
 
-    public void TakeDamage(string damager, int damageAmount)
+    public void TakeDamage(string damager, int damageAmount, int actor)
     {
 
         if (photonView.IsMine) {
@@ -335,9 +347,12 @@ public class PlayerController : MonoBehaviourPunCallbacks
             {
                 currentHealth = 0;
                 MultiplayerSpawner.instance.Die(damager);
+
+                MatchManager.instance.UpdateStatsSend(actor, 0, 1);
             }
 
-            overheated.instance.healthSlider.value = currentHealth;
+            //overheated.instance.healthSlider.value = currentHealth;
+            overheated.instance.healthNumber.text = currentHealth.ToString();
 
 
         }

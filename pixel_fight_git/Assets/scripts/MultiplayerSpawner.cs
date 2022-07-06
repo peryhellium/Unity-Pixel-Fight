@@ -41,7 +41,7 @@ public class MultiplayerSpawner : MonoBehaviour
 
         overheated.instance.deathText.text = "You were killed by " + damager;
 
-        
+        MatchManager.instance.UpdateStatsSend(PhotonNetwork.LocalPlayer.ActorNumber, 1, 1);
 
         isDead = true;
 
