@@ -352,7 +352,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
             }
 
             //overheated.instance.healthSlider.value = currentHealth;
-            overheated.instance.healthNumber.text = currentHealth.ToString();
+            
 
 
         }
