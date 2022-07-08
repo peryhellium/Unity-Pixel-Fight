@@ -20,6 +20,7 @@ public class MultiplayerSpawner : MonoBehaviour
     private bool isDead = false;
 
     public float respawnTime = 2f;
+    public float staticRespawnTime = 2f;
 
     void Start()
     {
@@ -34,6 +35,8 @@ public class MultiplayerSpawner : MonoBehaviour
         Transform spawnPoint = SpawnManager.instance.GetSpawnPoint();
 
         player = PhotonNetwork.Instantiate(playerPrefab.name, spawnPoint.position, spawnPoint.rotation);
+
+        respawnTime = staticRespawnTime;
     }
 
     public void Die(string damager)
