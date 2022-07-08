@@ -81,8 +81,6 @@ public class PlayerController : MonoBehaviourPunCallbacks
            //overheated.instance.healthSlider.value = currentHealth;
 
 
-
-
             overheated.instance.healthNumber.text = currentHealth.ToString();
 
         } else
@@ -99,8 +97,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
     void Update()
     {
-
-        if (photonView.IsMine) { 
+            if (photonView.IsMine && !overheated.instance.settingsScreen.activeInHierarchy) { 
         mouseInput = new Vector2(Input.GetAxisRaw("Mouse X"), Input.GetAxisRaw("Mouse Y")) * mouseSensitivity;
 
         transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, transform.rotation.eulerAngles.y + mouseInput.x, transform.rotation.eulerAngles.z);
@@ -237,7 +234,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
         }
         else if (Cursor.lockState == CursorLockMode.None)
         {
-            if (Input.GetMouseButtonDown(0))
+            if (Input.GetMouseButtonDown(0) && !overheated.instance.settingsScreen.activeInHierarchy)
             {
                 Cursor.lockState = CursorLockMode.Locked;
             }
@@ -251,6 +248,9 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
     void Shoot()
     {
+        //check if not in Settings Menu
+        if (!overheated.instance.settingsScreen.activeInHierarchy) { 
+
         Ray ray = cam.ViewportPointToRay(new Vector3(.5f, .5f, 0));
         ray.origin = cam.transform.position;
 
@@ -261,7 +261,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
             if(hit.collider.gameObject.tag == "Player")
             {
-                Debug.Log("Hit " + hit.collider.gameObject.GetPhotonView().Owner.NickName);
+                //Debug.Log("Hit " + hit.collider.gameObject.GetPhotonView().Owner.NickName);
 
                 PhotonNetwork.Instantiate(playerHitImpact.name, hit.point, Quaternion.identity);
 
@@ -303,7 +303,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
         photonView.RPC("ShootingSound", RpcTarget.All);
 
         photonView.RPC("MuzzleFlashing", RpcTarget.All);
-
+        }
     }
 
     [PunRPC]
@@ -352,8 +352,8 @@ public class PlayerController : MonoBehaviourPunCallbacks
             }
 
             //overheated.instance.healthSlider.value = currentHealth;
-            
 
+            overheated.instance.healthNumber.text = currentHealth.ToString();
 
         }
     }
@@ -361,8 +361,15 @@ public class PlayerController : MonoBehaviourPunCallbacks
     private void LateUpdate()
     {
         if (photonView.IsMine) { 
+            if(MatchManager.instance.state == MatchManager.GameState.Playing)
+            { 
         cam.transform.position = viewPoint.position;
         cam.transform.rotation = viewPoint.rotation;
+            } else
+            {
+                cam.transform.position = MatchManager.instance.mapCamPoint.position;
+                cam.transform.rotation = MatchManager.instance.mapCamPoint.rotation;
+            }
         }
     }
 

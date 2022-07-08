@@ -19,7 +19,7 @@ public class MultiplayerSpawner : MonoBehaviour
     public GameObject deathEffect;
     private bool isDead = false;
 
-    public float respawnTime = 5f;
+    public float respawnTime = 2f;
 
     void Start()
     {

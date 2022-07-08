@@ -24,6 +24,22 @@ public class MatchManager : MonoBehaviourPunCallbacks, IOnEventCallback
 
     public List<PlayerInfo> allPlayers = new List<PlayerInfo>();
     private int index;
+
+    private List<LeaderboardPlayer> lboardPlayers = new();
+
+    public enum GameState
+    {
+        Waiting,
+        Playing,
+        Ending
+    }
+
+    public int killsToWin = 2;
+    public Transform mapCamPoint;
+    public GameState state = GameState.Waiting;
+    public float waitAfterEnding = 3f;
+
+
     void Start()
     {
         if (!PhotonNetwork.IsConnected)
@@ -32,19 +48,30 @@ public class MatchManager : MonoBehaviourPunCallbacks, IOnEventCallback
         } else
         {
             NewPlayerSend(PhotonNetwork.NickName);
+
+            state = GameState.Playing;
         }
     }
 
 
     void Update()
     {
-        
+        if (Input.GetKeyDown(KeyCode.Tab) && state != GameState.Ending)
+        {
+            if (overheated.instance.leaderboard.activeInHierarchy)
+            {
+                overheated.instance.leaderboard.SetActive(false);
+            } else
+            {
+                ShowLeaderboard();
+            }
+        }
     }
 
     public void OnEvent(EventData photonEvent)
     {
         //Codes above 200 are reserved by PUN
-        if(photonEvent.Code < 200)
+        if (photonEvent.Code < 200)
         {
             EventCodes theEvent = (EventCodes)photonEvent.Code;
             object[] data = (object[])photonEvent.CustomData;
@@ -97,7 +124,7 @@ public class MatchManager : MonoBehaviourPunCallbacks, IOnEventCallback
             package,
             new RaiseEventOptions { Receivers = ReceiverGroup.MasterClient },
             new SendOptions { Reliability = true } // Make sure that it is sent
-            ); 
+            );
     }
 
     public void NewPlayerReceive(object[] dataReceived)
@@ -114,10 +141,13 @@ public class MatchManager : MonoBehaviourPunCallbacks, IOnEventCallback
 
     public void ListPlayersSend()
     {
-        object[] package = new object[allPlayers.Count];
+        object[] package = new object[allPlayers.Count + 1];
+
+        package[0] = state;
+
 
         //store all info about a player
-        for(int i = 0; i < allPlayers.Count; i++)
+        for (int i = 0; i < allPlayers.Count; i++)
         {
             object[] piece = new object[4];
 
@@ -126,7 +156,7 @@ public class MatchManager : MonoBehaviourPunCallbacks, IOnEventCallback
             piece[2] = allPlayers[i].kills;
             piece[3] = allPlayers[i].deaths;
 
-            package[i] = piece;
+            package[i + 1] = piece;
         }
 
         PhotonNetwork.RaiseEvent(
@@ -141,7 +171,9 @@ public class MatchManager : MonoBehaviourPunCallbacks, IOnEventCallback
     {
         allPlayers.Clear();
 
-        for(int i = 0; i < dataReceived.Length; i++)
+        state = (GameState)dataReceived[0];
+
+        for (int i = 1; i < dataReceived.Length; i++)
         {
             object[] piece = (object[])dataReceived[i];
 
@@ -154,11 +186,13 @@ public class MatchManager : MonoBehaviourPunCallbacks, IOnEventCallback
 
             allPlayers.Add(player);
 
-            if(PhotonNetwork.LocalPlayer.ActorNumber == player.actor)
+            if (PhotonNetwork.LocalPlayer.ActorNumber == player.actor)
             {
-                index = i;
+                index = i - 1;
             }
         }
+
+        StateCheck();
     }
 
     public void UpdateStatsSend(int actorSending, int statToUpdate, int amountToChange)
@@ -181,7 +215,7 @@ public class MatchManager : MonoBehaviourPunCallbacks, IOnEventCallback
 
         for (int i = 0; i < allPlayers.Count; i++)
         {
-            if(allPlayers[i].actor == actor)
+            if (allPlayers[i].actor == actor)
             {
                 switch (statType)
                 {
@@ -196,30 +230,164 @@ public class MatchManager : MonoBehaviourPunCallbacks, IOnEventCallback
                         break;
                 }
 
-                if(i == index)
+                if (i == index)
                 {
                     UpdateStatsDisplay();
+                }
+                if (overheated.instance.leaderboard.activeInHierarchy)
+                {
+                    ShowLeaderboard();
                 }
 
                 break;
             }
         }
+
+        ScoreCheck();
     }
 
     public void UpdateStatsDisplay()
     {
-        if(allPlayers.Count > index) { 
+        if (allPlayers.Count > index) {
 
-        overheated.instance.killsText.text = "Kills: " + allPlayers[index].kills;
-        overheated.instance.deathsText.text = "Deaths: " + allPlayers[index].deaths;
+            overheated.instance.killsText.text = "Kills: " + allPlayers[index].kills;
+            overheated.instance.deathsText.text = "Deaths: " + allPlayers[index].deaths;
         } else
         {
             overheated.instance.killsText.text = "Kills: 0";
             overheated.instance.deathsText.text = "Deaths: 0";
         }
     }
-}
 
+    void ShowLeaderboard()
+    {
+        overheated.instance.leaderboard.SetActive(true);
+
+        foreach (LeaderboardPlayer lp in lboardPlayers)
+        {
+            Destroy(lp.gameObject);
+        }
+        lboardPlayers.Clear();
+
+        overheated.instance.leaderboardPlayerDisplay.gameObject.SetActive(false);
+
+        List<PlayerInfo> sorted = SortPlayers(allPlayers);
+
+        foreach (PlayerInfo player in sorted)
+        {
+            LeaderboardPlayer newPlayerDIsplay = Instantiate(overheated.instance.leaderboardPlayerDisplay, overheated.instance.leaderboardPlayerDisplay.transform.parent);
+
+            newPlayerDIsplay.SetDetails(player.name, player.kills, player.deaths);
+
+            newPlayerDIsplay.gameObject.SetActive(true);
+
+            lboardPlayers.Add(newPlayerDIsplay);
+        }
+    }
+
+    private List<PlayerInfo> SortPlayers(List<PlayerInfo> players)
+    {
+        List<PlayerInfo> sorted = new();
+
+        while (sorted.Count < players.Count)
+        {
+            int highest = -1;
+            PlayerInfo selectedPlayer = players[0];
+
+            foreach (PlayerInfo player in players)
+            {
+                if (!sorted.Contains(player))
+                {
+                    if (player.kills > highest)
+                    {
+                        selectedPlayer = player;
+                        highest = player.kills;
+                    }
+                }
+            }
+
+            sorted.Add(selectedPlayer);
+        }
+
+        return sorted;
+
+
+    }
+
+    //when player quit the game
+    public override void OnLeftRoom()
+    {
+        base.OnLeftRoom();
+
+        SceneManager.LoadScene(0);
+    }
+
+    //checking if there is a winner already
+    void ScoreCheck()
+    {
+        bool winnerFound = false;
+
+        foreach (PlayerInfo player in allPlayers)
+        {
+            if (player.kills >= killsToWin && killsToWin > 0)
+            {
+                winnerFound = true;
+                break;
+            }
+        }
+
+        if (winnerFound)
+        {
+            if (PhotonNetwork.IsMasterClient && state != GameState.Ending)
+            {
+                state = GameState.Ending;
+                ListPlayersSend();
+            }
+        }
+    }
+
+    //check what is the state of the game
+    void StateCheck()
+    {
+        if(state == GameState.Ending)
+        {
+            EndGame();
+        }
+    }
+
+    void EndGame()
+    {
+        state = GameState.Ending;
+        
+
+        if (PhotonNetwork.IsMasterClient)
+        {
+            PhotonNetwork.DestroyAll();
+        }
+
+        overheated.instance.endScreen.SetActive(true);
+        ShowLeaderboard();
+
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+
+        Camera.main.transform.position = mapCamPoint.position;
+        Camera.main.transform.rotation = mapCamPoint.rotation;
+
+
+
+        StartCoroutine(EndCo());
+    }
+
+    private IEnumerator EndCo()
+    {
+        yield return new WaitForSeconds(waitAfterEnding);
+        PhotonNetwork.AutomaticallySyncScene = false;
+
+        PhotonNetwork.LeaveRoom();
+ 
+    }
+}
 
 
 [System.Serializable]
