@@ -19,7 +19,7 @@ public class MultiplayerSpawner : MonoBehaviour
     public GameObject deathEffect;
     private bool isDead = false;
 
-    public float respawnTime = 5f;
+    public float respawnTime = 2f;
 
     void Start()
     {
@@ -41,7 +41,7 @@ public class MultiplayerSpawner : MonoBehaviour
 
         overheated.instance.deathText.text = "You were killed by " + damager;
 
-        
+        MatchManager.instance.UpdateStatsSend(PhotonNetwork.LocalPlayer.ActorNumber, 1, 1);
 
         isDead = true;
 
