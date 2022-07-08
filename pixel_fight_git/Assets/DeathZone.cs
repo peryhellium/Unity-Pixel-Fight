@@ -22,6 +22,7 @@ public class DeathZone : MonoBehaviour
         overheated.instance.deathScreen.SetActive(true);
         overheated.instance.deathText.text = "You were killed by yourself";
         isDead = true;
+        PhotonNetwork.Destroy(player);
 
         MatchManager.instance.UpdateStatsSend(PhotonNetwork.LocalPlayer.ActorNumber, 1, 1);
 
