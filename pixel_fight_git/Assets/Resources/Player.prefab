@@ -514,7 +514,7 @@ CapsuleCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2034363310731470190}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   m_Radius: 0.5
   m_Height: 2
@@ -560,6 +560,7 @@ MonoBehaviour:
   gunHolder: {fileID: 2034363311385592769}
   playerHitImpact: {fileID: 2683570732475547624, guid: f0163c5e30f3f3f4a9c8abd37ce3b3c0, type: 3}
   maxHealth: 100
+  triggered: 0
   allSkins:
   - {fileID: 2100000, guid: 41928b1c3f87fb74ab84785adb8b26b4, type: 2}
   - {fileID: 2100000, guid: 74127230361817246951e01ab25b3bc5, type: 2}
