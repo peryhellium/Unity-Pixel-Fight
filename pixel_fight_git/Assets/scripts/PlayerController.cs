@@ -3,51 +3,68 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Photon.Pun;
+using TMPro;
 public class PlayerController : MonoBehaviourPunCallbacks
 {
     public Transform viewPoint;
     //public Transform rigthArm;
+
     public float mouseSensitivity = 1f;
     private float verticalRotStore;
     private Vector2 mouseInput;
     public float moveSpeed = 4f, runSpeed = 8f;
     private float activeMoveSpeed;
     private Vector3 moveDir, movement;
+
     public CharacterController charCon;
     private Camera cam;
     public float jumpForce = 10f, gravityMod = 2f;
     public Transform groundCheckPoint;
     private bool isGrounded;
     public LayerMask groundLayers;
+
     public GameObject bulletImpact;
     //public float timeBetweenShots = .1f;
     private float shotCounter;
     private float cooldown = 0f;
     public float muzzleDisplayTime;
     private float muzzleCounter;
+
     public float maxHeat = 12f, /*heatPerShot = 1f,*/ coolRate = 2f, overHeatCoolrate = 4f;
     private float heatCounter;
     private bool overHeated;
+
     public Guns[] allGuns;
     private int selectedGun;
+
     public Animator anim;
+
     public GameObject playerModel;
     public Transform modelGunPoint, gunHolder;
     public GameObject playerHitImpact;
     public int maxHealth = 100;
     private int currentHealth;
-    public bool triggered = false;
+
     private int blinkTime = 3;
+
     public Material[] allSkins;
+
     public static PlayerController instance;
+
+    public AudioSource hitted;
+    public TMP_Text nicknameLabel;
     public void Awake()
     {
         instance = this;
     }
     void Start()
     {
+        
+        hitted.Stop();
+
         Cursor.lockState = CursorLockMode.Locked;
         cam = Camera.main;
+
         overheated.instance.TempSlider.maxValue = maxHeat;
         //SwitchGun();
         photonView.RPC("SetGun", RpcTarget.All, selectedGun);
@@ -57,9 +74,6 @@ public class PlayerController : MonoBehaviourPunCallbacks
         currentHealth = maxHealth;
         if (photonView.IsMine)
         {
-            //playerModel.SetActive(false);
-            //overheated.instance.healthSlider.maxValue = maxHealth;
-           //overheated.instance.healthSlider.value = currentHealth;
             overheated.instance.healthNumber.text = currentHealth.ToString();
         } else
         {
@@ -180,7 +194,30 @@ public class PlayerController : MonoBehaviourPunCallbacks
                 Cursor.lockState = CursorLockMode.Locked;
             }
         }
+
+
+
         }
+
+        if (nicknameLabel != null)
+        {
+            Ray ray = cam.ViewportPointToRay(new Vector3(.5f, .5f, 0));
+            ray.origin = cam.transform.position;
+            if (Physics.Raycast(ray, out RaycastHit hit))
+            {
+                if (hit.collider.gameObject.tag == "Player") { 
+                Debug.Log("See: " + hit.collider.gameObject.name);
+                nicknameLabel.text = photonView.Owner.NickName;
+                nicknameLabel.color = Color.red;
+                nicknameLabel.transform.LookAt(Camera.main.transform.position);
+                nicknameLabel.transform.Rotate(0, 180, 0);
+                } else
+                {
+                    nicknameLabel.text = "";
+                }
+            }
+        }
+
         anim.SetBool("grounded", isGrounded);
         anim.SetFloat("speed", moveDir.magnitude);
     }
@@ -248,7 +285,10 @@ public class PlayerController : MonoBehaviourPunCallbacks
     public void TakeDamage(string damager, int damageAmount, int actor)
     {
         if (photonView.IsMine) {
-            
+
+            hitted.Stop();
+            hitted.Play();
+
             currentHealth -= damageAmount;
             if (currentHealth <= 0)
             {
