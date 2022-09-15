@@ -27,7 +27,6 @@ public class overheated : MonoBehaviour
     public TMP_Text timerText;
 
     public TMP_Text healthNumber;
-    //public Slider healthSlider;
 
     public TMP_Text killsText, deathsText;
 

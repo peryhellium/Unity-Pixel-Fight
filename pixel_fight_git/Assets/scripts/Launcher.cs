@@ -4,6 +4,9 @@ using UnityEngine;
 using Photon.Pun;
 using TMPro;
 using Photon.Realtime;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+using System.Threading.Tasks;
 
 public class Launcher : MonoBehaviourPunCallbacks
 {
@@ -39,6 +42,11 @@ public class Launcher : MonoBehaviourPunCallbacks
 
     public string levelToPlay;
     public GameObject startButton;
+
+    [SerializeField] private GameObject _loaderCanvas;
+    [SerializeField] private Image _progressBar;
+    private float _target;
+
 
     void Start()
     {
@@ -76,7 +84,7 @@ public class Launcher : MonoBehaviourPunCallbacks
 
 
 
-        loadingText.text = "Joining Lobby...";
+        //loadingText.text = "Joining Lobby...";
     }
 
     public override void OnJoinedLobby()
@@ -281,8 +289,27 @@ public class Launcher : MonoBehaviourPunCallbacks
             startButton.SetActive(false);
         }
     }
-    public void StartGame()
+    public async void StartGame()
     {
+        _target = 0;
+        _progressBar.fillAmount = 0;
+
+        var scene = SceneManager.LoadSceneAsync(levelToPlay);
+        scene.allowSceneActivation = false;
+
+        _loaderCanvas.SetActive(true);
+
+        do
+        {
+            await Task.Delay(10);
+            _target = scene.progress;
+        } while (scene.progress < 0.9f);
+
+        await Task.Delay(1200);
+
+        scene.allowSceneActivation = true;
+        _loaderCanvas.SetActive(false);
+
         PhotonNetwork.LoadLevel(levelToPlay);
     }
 
@@ -291,6 +318,26 @@ public class Launcher : MonoBehaviourPunCallbacks
         Application.Quit();
     }
 
+    void Update()
+    {
+        _progressBar.fillAmount = Mathf.MoveTowards(_progressBar.fillAmount, _target, 3 * Time.deltaTime);
+    }
+    /* public async void LoadScene(string sceneName)
+     {
+         var scene = SceneManager.LoadSceneAsync(sceneName);
+         scene.allowSceneActivation = false;
+
+         _loaderCanvas.SetActive(true);
+
+         do
+         {
+             await Task.Delay(100);
+             _progressBar.fillAmount = scene.progress;
+         } while (scene.progress < 0.9f);
+
+         scene.allowSceneActivation = true;
+         _loaderCanvas.SetActive(false);
+     }*/
 
 
 }
