@@ -109,6 +109,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
             movement.y = 0f;
         }
         isGrounded = Physics.Raycast(groundCheckPoint.position, Vector3.down, .25f, groundLayers);
+
         if (Input.GetButtonDown("Jump") && isGrounded)
         {
             movement.y = jumpForce;
@@ -220,9 +221,11 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
         anim.SetBool("grounded", isGrounded);
         anim.SetFloat("speed", moveDir.magnitude);
+     
     }
     void Shoot()
     {
+        
         //check if not in Settings Menu
         if (!overheated.instance.settingsScreen.activeInHierarchy) { 
         Ray ray = cam.ViewportPointToRay(new Vector3(.5f, .5f, 0));
