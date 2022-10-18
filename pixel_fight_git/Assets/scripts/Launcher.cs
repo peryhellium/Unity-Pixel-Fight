@@ -12,10 +12,7 @@ public class Launcher : MonoBehaviourPunCallbacks
 {
     public static Launcher instance;
 
-    private void Awake()
-    {
-        instance = this;
-    }
+
 
     public GameObject loadingScreen;
     public TMP_Text loadingText;
@@ -40,13 +37,20 @@ public class Launcher : MonoBehaviourPunCallbacks
     public TMP_InputField nameInput;
     public static bool hasSetNick; //keep the nickname
 
+    public string levelToWait;
     public string levelToPlay;
     public GameObject startButton;
 
     [SerializeField] private GameObject _loaderCanvas;
     [SerializeField] private Image _progressBar;
     private float _target;
+    private PhotonView PhotonView;
 
+    private void Awake()
+    {
+        instance = this;
+        PhotonView = GetComponent<PhotonView>();
+    }
 
     void Start()
     {
@@ -289,9 +293,10 @@ public class Launcher : MonoBehaviourPunCallbacks
             startButton.SetActive(false);
         }
     }
+
     public async void StartGame()
     {
-        _target = 0;
+        /*_target = 0;
         _progressBar.fillAmount = 0;
 
         var scene = SceneManager.LoadSceneAsync(levelToPlay);
@@ -305,13 +310,25 @@ public class Launcher : MonoBehaviourPunCallbacks
             _target = scene.progress;
         } while (scene.progress < 0.9f);
 
-        await Task.Delay(1200);
+        
 
         scene.allowSceneActivation = true;
-        _loaderCanvas.SetActive(false);
+        _loaderCanvas.SetActive(false);*/
+
+        CloseMenus();
+
+        loadingScreen.SetActive(false);
+        loadingText.text = "";
+
+        PhotonNetwork.LoadLevel(levelToWait);
+
+        await Task.Delay(2000);
 
         PhotonNetwork.LoadLevel(levelToPlay);
+
     }
+
+
 
     public void QuitGame()
     {
@@ -320,24 +337,12 @@ public class Launcher : MonoBehaviourPunCallbacks
 
     void Update()
     {
-        _progressBar.fillAmount = Mathf.MoveTowards(_progressBar.fillAmount, _target, 3 * Time.deltaTime);
+        //_progressBar.fillAmount = Mathf.MoveTowards(_progressBar.fillAmount, _target, 3 * Time.deltaTime);
     }
-    /* public async void LoadScene(string sceneName)
-     {
-         var scene = SceneManager.LoadSceneAsync(sceneName);
-         scene.allowSceneActivation = false;
 
-         _loaderCanvas.SetActive(true);
 
-         do
-         {
-             await Task.Delay(100);
-             _progressBar.fillAmount = scene.progress;
-         } while (scene.progress < 0.9f);
 
-         scene.allowSceneActivation = true;
-         _loaderCanvas.SetActive(false);
-     }*/
+
 
 
 }
