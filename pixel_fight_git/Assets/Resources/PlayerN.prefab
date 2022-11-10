@@ -1233,6 +1233,7 @@ MonoBehaviour:
   - {fileID: 2100000, guid: 3cc029f6eccfe434ba9eb087e3e1d33b, type: 2}
   hitted: {fileID: 4635129970620125218}
   nicknameLabel: {fileID: 876486183693196868}
+  crosshair: {fileID: 0}
 --- !u!143 &1158099299599369651
 CharacterController:
   m_ObjectHideFlags: 0
@@ -1300,7 +1301,7 @@ MonoBehaviour:
   observableSearch: 0
   ObservedComponents:
   - {fileID: 7130118513993207878}
-  sceneViewId: 3
+  sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
 --- !u!114 &7130118513993207878
@@ -3634,7 +3635,7 @@ MonoBehaviour:
   observableSearch: 0
   ObservedComponents:
   - {fileID: 7717179686103401896}
-  sceneViewId: 2
+  sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
 --- !u!4 &8478445938022858288 stripped
