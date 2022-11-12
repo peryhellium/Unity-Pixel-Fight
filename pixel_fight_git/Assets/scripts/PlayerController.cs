@@ -64,6 +64,10 @@ public class PlayerController : MonoBehaviourPunCallbacks
         crosshair.color = new Color(1, 1, 1, 0.75f);
         hitted.Stop();
 
+        gunHolder.parent = modelGunPoint;
+        gunHolder.localPosition = Vector3.zero;
+        gunHolder.localRotation = Quaternion.identity;
+
         Cursor.lockState = CursorLockMode.Locked;
         cam = Camera.main;
 
