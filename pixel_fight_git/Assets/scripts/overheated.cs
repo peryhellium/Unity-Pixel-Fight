@@ -4,6 +4,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using Photon.Pun;
+using UnityEngine.Audio;
 
 public class overheated : MonoBehaviour
 {
@@ -37,7 +38,12 @@ public class overheated : MonoBehaviour
     public GameObject endScreen;
 
     public GameObject settingsScreen;
-    
+
+    public GameObject optionScreen;
+
+    public AudioMixer audioMixerSound;
+    public AudioMixer audioMixerMusic;
+
     void Start()
     {
         
@@ -51,11 +57,14 @@ public class overheated : MonoBehaviour
             ShowHideMenu();
         }
 
-        if(settingsScreen.activeInHierarchy && Cursor.lockState != CursorLockMode.None)
+        if((settingsScreen.activeInHierarchy || optionScreen.activeInHierarchy) && Cursor.lockState != CursorLockMode.None)
         {
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
-        }
+        } 
+
+
+
     }
 
     public void ShowHideMenu()
@@ -63,7 +72,10 @@ public class overheated : MonoBehaviour
         if (!settingsScreen.activeInHierarchy)
         {
             settingsScreen.SetActive(true);
-        } else
+        } else if (optionScreen.activeInHierarchy && settingsScreen.activeInHierarchy)
+        {
+            optionScreen.SetActive(false);
+        } else if (!optionScreen.activeInHierarchy && settingsScreen.activeInHierarchy)
         {
             settingsScreen.SetActive(false);
         }
@@ -75,8 +87,30 @@ public class overheated : MonoBehaviour
         PhotonNetwork.LeaveRoom();
     }
 
+    public void Options()
+    {
+        //settingsScreen.SetActive(false);
+        optionScreen.SetActive(true);
+    }
+
+    public void Back()
+    {
+        optionScreen.SetActive(false);
+    }
+
     public void QuitGame()
     {
         Application.Quit();
     }
+
+    public void SetVolumeSound(float volume)
+    {
+        audioMixerSound.SetFloat("Volume", Mathf.Log10(volume) * 20);
+    }
+
+    public void SetVolumeMusic(float volume)
+    {
+        audioMixerMusic.SetFloat("Volume", Mathf.Log10(volume) * 20);
+    }
+
 }

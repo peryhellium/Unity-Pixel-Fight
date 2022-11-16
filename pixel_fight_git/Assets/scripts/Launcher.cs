@@ -18,6 +18,7 @@ public class Launcher : MonoBehaviourPunCallbacks
     public TMP_Text loadingText;
 
     public GameObject menuButtons;
+    public GameObject settingsScreen;
 
     public GameObject createRoomScreen;
     public TMP_InputField roomNameInput;
@@ -76,6 +77,7 @@ public class Launcher : MonoBehaviourPunCallbacks
         errorScreen.SetActive(false);
         roomBrowserScreen.SetActive(false);
         nameInputScreen.SetActive(false);
+        settingsScreen.SetActive(false);
     }
 
     public override void OnConnectedToMaster()
@@ -224,6 +226,12 @@ public class Launcher : MonoBehaviourPunCallbacks
     {
         CloseMenus();
         roomBrowserScreen.SetActive(true);
+    }
+
+    public void OpenSettingsPanel()
+    {
+        CloseMenus();
+        settingsScreen.SetActive(true);
     }
 
     public void CloseRoomBrowser()

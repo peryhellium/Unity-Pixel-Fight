@@ -53,14 +53,20 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
     public AudioSource hitted;
     public TMP_Text nicknameLabel;
+
+    public Image crosshair;
     public void Awake()
     {
         instance = this;
     }
     void Start()
     {
-        
+        crosshair.color = new Color(1, 1, 1, 0.75f);
         hitted.Stop();
+
+        gunHolder.parent = modelGunPoint;
+        gunHolder.localPosition = Vector3.zero;
+        gunHolder.localRotation = Quaternion.identity;
 
         Cursor.lockState = CursorLockMode.Locked;
         cam = Camera.main;
@@ -207,6 +213,8 @@ public class PlayerController : MonoBehaviourPunCallbacks
             if (Physics.Raycast(ray, out RaycastHit hit))
             {
                 if (hit.collider.gameObject.tag == "Player") { 
+                crosshair.color = new Color(1, 0, 0, 0.75f);
+                overheated.instance.crosshair.color = new Color(1, 0, 0, 0.75f);
                 Debug.Log("See: " + hit.collider.gameObject.name);
                 nicknameLabel.text = photonView.Owner.NickName;
                 nicknameLabel.color = Color.red;
@@ -215,6 +223,8 @@ public class PlayerController : MonoBehaviourPunCallbacks
                 } else
                 {
                     nicknameLabel.text = "";
+                    crosshair.color = new Color(1, 1, 1, 0.75f);
+                    overheated.instance.crosshair.color = new Color(1, 1, 1, 0.75f);
                 }
             }
         }

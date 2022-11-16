@@ -64,7 +64,8 @@ MonoBehaviour:
   materialHashCode: -974045242
   m_Version: 1.1.0
   m_SourceFontFileGUID: 585188cdc4600544eb408bee749e4b3a
-  m_SourceFontFile_EditorRef: {fileID: 12800000, guid: 585188cdc4600544eb408bee749e4b3a, type: 3}
+  m_SourceFontFile_EditorRef: {fileID: 12800000, guid: 585188cdc4600544eb408bee749e4b3a,
+    type: 3}
   m_SourceFontFile: {fileID: 0}
   m_AtlasPopulationMode: 0
   m_FaceInfo:
