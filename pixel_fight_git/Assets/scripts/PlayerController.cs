@@ -7,10 +7,13 @@ using TMPro;
 public class PlayerController : MonoBehaviourPunCallbacks
 {
     public Transform viewPoint;
+    public Transform rightArmPoint;
+    public Transform hipsPoint;
     //public Transform rigthArm;
 
     public float mouseSensitivity = 1f;
     private float verticalRotStore;
+    private float spine_verticalRotStore;
     private Vector2 mouseInput;
     public float moveSpeed = 4f, runSpeed = 8f;
     private float activeMoveSpeed;
@@ -55,6 +58,8 @@ public class PlayerController : MonoBehaviourPunCallbacks
     public TMP_Text nicknameLabel;
 
     public Image crosshair;
+
+    
     public void Awake()
     {
         instance = this;
@@ -81,6 +86,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
         if (photonView.IsMine)
         {
             overheated.instance.healthNumber.text = currentHealth.ToString();
+            playerModel.SetActive(false);
         } else
         {
             gunHolder.parent = modelGunPoint;
@@ -98,8 +104,13 @@ public class PlayerController : MonoBehaviourPunCallbacks
                 mouseInput = new Vector2(Input.GetAxisRaw("Mouse X"), Input.GetAxisRaw("Mouse Y")) * mouseSensitivity;
                 transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, transform.rotation.eulerAngles.y + mouseInput.x, transform.rotation.eulerAngles.z);
                 verticalRotStore += mouseInput.y;
-                verticalRotStore = Mathf.Clamp(verticalRotStore, -60f, 60f);
+                verticalRotStore = Mathf.Clamp(verticalRotStore, -35f, 35f);
+                spine_verticalRotStore = Mathf.Clamp(verticalRotStore, -35f, 35f);
                 viewPoint.rotation = Quaternion.Euler(-verticalRotStore, viewPoint.rotation.eulerAngles.y, viewPoint.rotation.eulerAngles.z);
+
+                //rightArmPoint.rotation = Quaternion.Euler(spine_verticalRotStore, rightArmPoint.rotation.eulerAngles.y, rightArmPoint.rotation.eulerAngles.z);
+
+                hipsPoint.rotation = Quaternion.Euler(-spine_verticalRotStore, hipsPoint.rotation.eulerAngles.y, hipsPoint.rotation.eulerAngles.z);
 
             }
           

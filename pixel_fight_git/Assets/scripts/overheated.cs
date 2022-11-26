@@ -52,7 +52,7 @@ public class overheated : MonoBehaviour
     
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E))
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
             ShowHideMenu();
         }
