@@ -58,14 +58,20 @@ public class MatchManager : MonoBehaviourPunCallbacks, IOnEventCallback
     {
         if (Input.GetKeyDown(KeyCode.Tab) && state != GameState.Ending)
         {
-            if (overheated.instance.leaderboard.activeInHierarchy)
+            ShowLeaderboard();
+            /*if (overheated.instance.leaderboard.activeInHierarchy)
             {
                 overheated.instance.leaderboard.SetActive(false);
             } else
             {
                 ShowLeaderboard();
-            }
+            }*/ 
         }
+        if (Input.GetKeyUp(KeyCode.Tab) && state != GameState.Ending)
+        {
+            overheated.instance.leaderboard.SetActive(false);
+        }
+
     }
 
     public void OnEvent(EventData photonEvent)
