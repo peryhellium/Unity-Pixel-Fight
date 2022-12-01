@@ -9,6 +9,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
     public Transform viewPoint;
     public Transform rightArmPoint;
     public Transform hipsPoint;
+    public Transform headPoint;
     //public Transform rigthArm;
 
     public float mouseSensitivity = 1f;
@@ -86,7 +87,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
         if (photonView.IsMine)
         {
             overheated.instance.healthNumber.text = currentHealth.ToString();
-            playerModel.SetActive(false);
+            //playerModel.SetActive(false);
         } else
         {
             gunHolder.parent = modelGunPoint;
@@ -104,10 +105,10 @@ public class PlayerController : MonoBehaviourPunCallbacks
                 mouseInput = new Vector2(Input.GetAxisRaw("Mouse X"), Input.GetAxisRaw("Mouse Y")) * mouseSensitivity;
                 transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, transform.rotation.eulerAngles.y + mouseInput.x, transform.rotation.eulerAngles.z);
                 verticalRotStore += mouseInput.y;
-                verticalRotStore = Mathf.Clamp(verticalRotStore, -35f, 35f);
-                spine_verticalRotStore = Mathf.Clamp(verticalRotStore, -35f, 35f);
-                viewPoint.rotation = Quaternion.Euler(-verticalRotStore, viewPoint.rotation.eulerAngles.y, viewPoint.rotation.eulerAngles.z);
-
+                verticalRotStore = Mathf.Clamp(verticalRotStore, -30f, 50f);
+                spine_verticalRotStore = Mathf.Clamp(verticalRotStore, -30f, 50f);
+                //viewPoint.rotation = Quaternion.Euler(-verticalRotStore, viewPoint.rotation.eulerAngles.y, viewPoint.rotation.eulerAngles.z);
+                
                 //rightArmPoint.rotation = Quaternion.Euler(spine_verticalRotStore, rightArmPoint.rotation.eulerAngles.y, rightArmPoint.rotation.eulerAngles.z);
 
                 hipsPoint.rotation = Quaternion.Euler(-spine_verticalRotStore, hipsPoint.rotation.eulerAngles.y, hipsPoint.rotation.eulerAngles.z);
@@ -228,7 +229,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
             ray.origin = cam.transform.position;
             if (Physics.Raycast(ray, out RaycastHit hit))
             {
-                if (hit.collider.gameObject.tag == "Player") { 
+                if (hit.collider.gameObject.tag == "Player" && !photonView.IsMine) { 
                 crosshair.color = new Color(1, 0, 0, 0.75f);
                 overheated.instance.crosshair.color = new Color(1, 0, 0, 0.75f);
                 Debug.Log("See: " + hit.collider.gameObject.name);
@@ -349,8 +350,8 @@ public class PlayerController : MonoBehaviourPunCallbacks
         if (photonView.IsMine) { 
             if(MatchManager.instance.state == MatchManager.GameState.Playing)
             { 
-        cam.transform.position = viewPoint.position;
-        cam.transform.rotation = viewPoint.rotation;
+        cam.transform.position = headPoint.position;
+        cam.transform.rotation = headPoint.rotation;
             } else
             {
                 cam.transform.position = MatchManager.instance.mapCamPoint.position;
