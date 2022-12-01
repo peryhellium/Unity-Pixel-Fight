@@ -108710,10 +108710,13 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: WEAPON OVERHEATED!
+  m_text: '!WEAPONS DISABLED!
+
+
+    cooling down...'
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 58d14b543e2d3ad4ab66d033c2c035da, type: 2}
-  m_sharedMaterial: {fileID: 2270518522913822328, guid: 58d14b543e2d3ad4ab66d033c2c035da,
+  m_fontAsset: {fileID: 11400000, guid: 25c7d8c840326d64981cd7378e7c9540, type: 2}
+  m_sharedMaterial: {fileID: 5411553386847670928, guid: 25c7d8c840326d64981cd7378e7c9540,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -108738,13 +108741,13 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 85
+  m_fontSize: 39.95
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
   m_fontSizeMin: 30
   m_fontSizeMax: 85
-  m_fontStyle: 21
+  m_fontStyle: 1
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535

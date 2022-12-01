@@ -283,7 +283,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
             heatCounter = maxHeat;
             overHeated = true;
             overheated.instance.overheatedMessage.gameObject.SetActive(true);
-            //overheated.instance.crosshair.gameObject.SetActive(false);
+            overheated.instance.crosshair.gameObject.SetActive(false);
         }
         photonView.RPC("ShootingSound", RpcTarget.All);
         photonView.RPC("MuzzleFlashing", RpcTarget.All);
@@ -371,7 +371,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
     [PunRPC]
     public void SetGun(int gunToSwitchTo)
     {
-        if(gunToSwitchTo < allGuns.Length)
+        if(gunToSwitchTo < allGuns.Length && !overHeated)
         {
             selectedGun = gunToSwitchTo;
             SwitchGun();
