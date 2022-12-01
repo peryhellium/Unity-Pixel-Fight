@@ -57,18 +57,24 @@ public class overheated : MonoBehaviour
             ShowHideMenu();
         }
 
-        if((settingsScreen.activeInHierarchy || optionScreen.activeInHierarchy) && Cursor.lockState != CursorLockMode.None)
+        /*if((settingsScreen.activeInHierarchy || optionScreen.activeInHierarchy) && Cursor.lockState != CursorLockMode.None)
         {
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
-        } 
-
-
-
-    }
+        }
+        if (Cursor.lockState == CursorLockMode.None)
+        {
+            if (Input.GetMouseButtonDown(0) && !overheated.instance.settingsScreen.activeInHierarchy)
+            {
+                Cursor.lockState = CursorLockMode.Locked;
+            }
+        }*/
+ 
+        }
 
     public void ShowHideMenu()
     {
+
         if (!settingsScreen.activeInHierarchy)
         {
             settingsScreen.SetActive(true);
@@ -79,6 +85,21 @@ public class overheated : MonoBehaviour
         {
             settingsScreen.SetActive(false);
         }
+
+        if ((settingsScreen.activeInHierarchy || optionScreen.activeInHierarchy) && Cursor.lockState != CursorLockMode.None)
+        {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+        }
+
+        if (Cursor.lockState == CursorLockMode.None)
+        {
+            if (!settingsScreen.activeInHierarchy)
+            {
+                Cursor.lockState = CursorLockMode.Locked;
+            }
+        }
+
     }
 
     public void ReturnToMainMenu()

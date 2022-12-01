@@ -21,6 +21,7 @@ public class MultiplayerSpawner : MonoBehaviour
         if (PhotonNetwork.IsConnected)
         {
             SpawnPlayer();
+            
         }
     }
     public void SpawnPlayer()
@@ -29,6 +30,8 @@ public class MultiplayerSpawner : MonoBehaviour
         player = PhotonNetwork.Instantiate(playerPrefab.name, spawnPoint.position, spawnPoint.rotation);
         respawnTime = staticRespawnTime;
     }
+
+
     public void Die(string damager)
     {
         overheated.instance.deathText.text = "You were killed by " + damager;
