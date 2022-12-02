@@ -330,7 +330,9 @@ public class PlayerController : MonoBehaviourPunCallbacks
             }
 
             overheated.instance.healthNumber.text = currentHealth.ToString();
+            if (currentHealth > 0) { 
             StartCoroutine(BlinkText());
+            }
         }
     }
     IEnumerator BlinkText()
