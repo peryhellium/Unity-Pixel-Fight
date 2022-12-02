@@ -25415,10 +25415,35 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8138498525283028502, guid: 5007e3e71de26574b9918876a2b37382,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8138498525283028504, guid: 5007e3e71de26574b9918876a2b37382,
+        type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8138498525283028504, guid: 5007e3e71de26574b9918876a2b37382,
         type: 3}
       propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
+      objectReference: {fileID: 3973978629267246239}
+    - target: {fileID: 8138498525283028504, guid: 5007e3e71de26574b9918876a2b37382,
+        type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SetFullScreen
+      objectReference: {fileID: 0}
+    - target: {fileID: 8138498525283028504, guid: 5007e3e71de26574b9918876a2b37382,
+        type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: overheated, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 8138498525428946222, guid: 5007e3e71de26574b9918876a2b37382,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8138498525630482830, guid: 5007e3e71de26574b9918876a2b37382,
         type: 3}
@@ -25724,6 +25749,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
+      objectReference: {fileID: 3973978629267246239}
+    - target: {fileID: 8138498527335176660, guid: 5007e3e71de26574b9918876a2b37382,
+        type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SetResolution
+      objectReference: {fileID: 0}
+    - target: {fileID: 8138498527335176660, guid: 5007e3e71de26574b9918876a2b37382,
+        type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: overheated, Assembly-CSharp
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5007e3e71de26574b9918876a2b37382, type: 3}
@@ -25739,6 +25774,18 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 583056345}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &583056348 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8138498527335176660, guid: 5007e3e71de26574b9918876a2b37382,
+    type: 3}
+  m_PrefabInstance: {fileID: 583056345}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b743370ac3e4ec2a1668f5455a8ef8a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &583518726
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -43893,7 +43940,7 @@ AudioSource:
     type: 2}
   m_audioClip: {fileID: 8300000, guid: 51a4f1157b7ff1449b5e5cf064d584c7, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.4
+  m_Volume: 0.2
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -96781,6 +96828,7 @@ MonoBehaviour:
   optionScreen: {fileID: 583056346}
   audioMixerSound: {fileID: 24100000, guid: 3fcdb23bde063e94fa0b60ccf87604d6, type: 2}
   audioMixerMusic: {fileID: 24100000, guid: 6ce40c8f7b442ec439b540ca7d8c36ba, type: 2}
+  resolutionDropown: {fileID: 583056348}
 --- !u!1 &3973978629267246240
 GameObject:
   m_ObjectHideFlags: 0
