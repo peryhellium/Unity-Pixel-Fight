@@ -1040,7 +1040,7 @@ CapsuleCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1282891963407199247}
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_Enabled: 0
   m_Radius: 0.5
   m_Height: 2
@@ -1071,7 +1071,7 @@ MonoBehaviour:
   groundCheckPoint: {fileID: 7132310321264589983}
   groundLayers:
     serializedVersion: 2
-    m_Bits: 136
+    m_Bits: 2147483647
   bulletImpact: {fileID: 2683570732475547624, guid: a9c28c881745f6f4f9b00323973812b0,
     type: 3}
   muzzleDisplayTime: 0.03
