@@ -59,8 +59,9 @@ public class PlayerController : MonoBehaviourPunCallbacks
     public TMP_Text nicknameLabel;
 
     public Image crosshair;
+    public float switchDelay = 0.75f;
+    private float nextSwitch;
 
-    
     public void Awake()
     {
         instance = this;
@@ -176,6 +177,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
                 overHeated = false;
                 overheated.instance.overheatedMessage.gameObject.SetActive(false);
                 overheated.instance.crosshair.gameObject.SetActive(true);
+                allGuns[selectedGun].gameObject.SetActive(true);
             }
         }
         overheated.instance.TempSlider.value = heatCounter;
@@ -232,7 +234,6 @@ public class PlayerController : MonoBehaviourPunCallbacks
                 if (hit.collider.gameObject.tag == "Player" && !photonView.IsMine) { 
                 crosshair.color = new Color(1, 0, 0, 0.75f);
                 overheated.instance.crosshair.color = new Color(1, 0, 0, 0.75f);
-                Debug.Log("See: " + hit.collider.gameObject.name);
                 nicknameLabel.text = photonView.Owner.NickName;
                 nicknameLabel.color = Color.red;
                 nicknameLabel.transform.LookAt(Camera.main.transform.position);
@@ -248,7 +249,9 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
         anim.SetBool("grounded", isGrounded);
         anim.SetFloat("speed", moveDir.magnitude);
-     
+
+        
+
     }
     void Shoot()
     {
@@ -284,7 +287,8 @@ public class PlayerController : MonoBehaviourPunCallbacks
             overHeated = true;
             overheated.instance.overheatedMessage.gameObject.SetActive(true);
             overheated.instance.crosshair.gameObject.SetActive(false);
-        }
+            allGuns[selectedGun].gameObject.SetActive(false);
+         }
         photonView.RPC("ShootingSound", RpcTarget.All);
         photonView.RPC("MuzzleFlashing", RpcTarget.All);
         }
@@ -363,18 +367,23 @@ public class PlayerController : MonoBehaviourPunCallbacks
     }
     void SwitchGun()
     {
-        foreach(Guns gun in allGuns)
+        
+        foreach (Guns gun in allGuns)
         {
             gun.gameObject.SetActive(false);
         }
         allGuns[selectedGun].gameObject.SetActive(true);
         allGuns[selectedGun].muzzleFlash.SetActive(false);
+
+        heatCounter = 0;
+
     }
     [PunRPC]
     public void SetGun(int gunToSwitchTo)
     {
-        if(gunToSwitchTo < allGuns.Length && !overHeated)
+        if(gunToSwitchTo < allGuns.Length && !overHeated && Time.time > nextSwitch)
         {
+            nextSwitch = Time.time + switchDelay;
             selectedGun = gunToSwitchTo;
             SwitchGun();
         }

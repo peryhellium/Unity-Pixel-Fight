@@ -1103,6 +1103,7 @@ MonoBehaviour:
   nicknameLabel: {fileID: 1006059558490813954}
   crosshair: {fileID: 5880822518411282870, guid: c4794a88eda6f8045b91b5837d7174d5,
     type: 3}
+  switchDelay: 0.5
 --- !u!143 &1282891963407199733
 CharacterController:
   m_ObjectHideFlags: 0
