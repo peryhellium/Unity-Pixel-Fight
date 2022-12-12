@@ -228,13 +228,19 @@ AnimatorController:
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
+    m_Controller: {fileID: 0}
   - m_Name: grounded
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 1
-    m_Controller: {fileID: 9100000}
+    m_Controller: {fileID: 0}
+  - m_Name: switch
+    m_Type: 4
+    m_DefaultFloat: 0
+    m_DefaultInt: 0
+    m_DefaultBool: 0
+    m_Controller: {fileID: 0}
   m_AnimatorLayers:
   - serializedVersion: 5
     m_Name: Base Layer
@@ -313,21 +319,21 @@ AnimatorStateMachine:
   m_ChildStates:
   - serializedVersion: 1
     m_State: {fileID: -4499392738362270827}
-    m_Position: {x: 300, y: -80, z: 0}
+    m_Position: {x: 80, y: -100, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 535243260141228311}
-    m_Position: {x: 600, y: -80, z: 0}
+    m_Position: {x: 380, y: -100, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -4119002192497716448}
-    m_Position: {x: 450, y: 110, z: 0}
+    m_Position: {x: 230, y: 90, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions: []
   m_EntryTransitions: []
   m_StateMachineTransitions: {}
   m_StateMachineBehaviours: []
-  m_AnyStatePosition: {x: 50, y: 20, z: 0}
-  m_EntryPosition: {x: 50, y: 120, z: 0}
-  m_ExitPosition: {x: 800, y: 120, z: 0}
+  m_AnyStatePosition: {x: -150, y: -220, z: 0}
+  m_EntryPosition: {x: -170, y: 100, z: 0}
+  m_ExitPosition: {x: 580, y: 100, z: 0}
   m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}
   m_DefaultState: {fileID: -4499392738362270827}
 --- !u!1101 &6100498606311747635

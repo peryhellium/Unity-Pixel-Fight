@@ -257,8 +257,11 @@ public class PlayerController : MonoBehaviourPunCallbacks
     {
         
         //check if not in Settings Menu
-        if (!overheated.instance.settingsScreen.activeInHierarchy) { 
-        Ray ray = cam.ViewportPointToRay(new Vector3(.5f, .5f, 0));
+        if (!overheated.instance.settingsScreen.activeInHierarchy) {
+            Vector2 bulletOffset = Random.insideUnitCircle * 20;
+            Vector3 randomTarget = new Vector3(Screen.width / 2 + bulletOffset.x, Screen.height / 2 + bulletOffset.y, 0);
+            //Ray ray = cam.ViewportPointToRay(new Vector3(.5f, .5f, 0));
+            Ray ray = Camera.main.ScreenPointToRay(randomTarget);
         ray.origin = cam.transform.position;
         if (Physics.Raycast(ray, out RaycastHit hit))
         {
@@ -269,7 +272,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
                 hit.collider.gameObject.GetPhotonView().RPC("DealDamage", RpcTarget.All, photonView.Owner.NickName, allGuns[selectedGun].shotDamage, PhotonNetwork.LocalPlayer.ActorNumber);
             } else {
                 GameObject bulletImpactObject = Instantiate(bulletImpact, hit.point + (hit.normal * .002f), Quaternion.LookRotation(hit.normal, Vector3.up));
-                Destroy(bulletImpactObject, 10f);
+                Destroy(bulletImpactObject, 2f);
             }
             GameObject hitObject = hit.transform.gameObject;
             AnotherAI target = hitObject.GetComponent<AnotherAI>();
