@@ -59,6 +59,7 @@ MonoBehaviour:
   muzzleFlash: {fileID: 5121502526493881782}
   shotSound: {fileID: 6146191661809917543}
   shotDamage: 15
+  adsZoom: 0
 --- !u!82 &6146191661809917543
 AudioSource:
   m_ObjectHideFlags: 0
@@ -279,6 +280,7 @@ MonoBehaviour:
   muzzleFlash: {fileID: 1030531296117036591}
   shotSound: {fileID: 8081810014134910583}
   shotDamage: 30
+  adsZoom: 0
 --- !u!82 &8081810014134910583
 AudioSource:
   m_ObjectHideFlags: 0
@@ -603,6 +605,7 @@ MonoBehaviour:
   muzzleFlash: {fileID: 1281556133502388256}
   shotSound: {fileID: 7132310321601103535}
   shotDamage: 20
+  adsZoom: 50
 --- !u!82 &7132310321601103535
 AudioSource:
   m_ObjectHideFlags: 0
@@ -837,6 +840,7 @@ MonoBehaviour:
   muzzleFlash: {fileID: 1281556132093066227}
   shotSound: {fileID: 7132310320688842756}
   shotDamage: 40
+  adsZoom: 50
 --- !u!82 &7132310320688842756
 AudioSource:
   m_ObjectHideFlags: 0
@@ -1104,6 +1108,7 @@ MonoBehaviour:
   crosshair: {fileID: 5880822518411282870, guid: c4794a88eda6f8045b91b5837d7174d5,
     type: 3}
   switchDelay: 0.5
+  adsSpeed: 5
 --- !u!143 &1282891963407199733
 CharacterController:
   m_ObjectHideFlags: 0
@@ -1482,6 +1487,7 @@ MonoBehaviour:
   muzzleFlash: {fileID: 1281556133062518777}
   shotSound: {fileID: 7132310320794272726}
   shotDamage: 15
+  adsZoom: 50
 --- !u!82 &7132310320794272726
 AudioSource:
   m_ObjectHideFlags: 0
@@ -1632,6 +1638,7 @@ MonoBehaviour:
   muzzleFlash: {fileID: 1281556133510084601}
   shotSound: {fileID: 7132310320871501963}
   shotDamage: 10
+  adsZoom: 50
 --- !u!82 &7132310320871501963
 AudioSource:
   m_ObjectHideFlags: 0
@@ -1783,6 +1790,7 @@ MonoBehaviour:
   muzzleFlash: {fileID: 1281556133441388267}
   shotSound: {fileID: 7132310321225421362}
   shotDamage: 30
+  adsZoom: 50
 --- !u!82 &7132310321225421362
 AudioSource:
   m_ObjectHideFlags: 0
@@ -1965,6 +1973,7 @@ MonoBehaviour:
   muzzleFlash: {fileID: 274753762122785318}
   shotSound: {fileID: 1160521616063360294}
   shotDamage: 40
+  adsZoom: 0
 --- !u!82 &1160521616063360294
 AudioSource:
   m_ObjectHideFlags: 0
@@ -2118,6 +2127,7 @@ MonoBehaviour:
   muzzleFlash: {fileID: 3606220514297538466}
   shotSound: {fileID: 3108780896625228463}
   shotDamage: 15
+  adsZoom: 0
 --- !u!82 &3108780896625228463
 AudioSource:
   m_ObjectHideFlags: 0
@@ -2376,6 +2386,7 @@ MonoBehaviour:
   muzzleFlash: {fileID: 6384277768056658509}
   shotSound: {fileID: 5538480491591625562}
   shotDamage: 10
+  adsZoom: 0
 --- !u!82 &5538480491591625562
 AudioSource:
   m_ObjectHideFlags: 0
@@ -2764,6 +2775,7 @@ MonoBehaviour:
   muzzleFlash: {fileID: 9155430312040005008}
   shotSound: {fileID: 2220170953055962362}
   shotDamage: 20
+  adsZoom: 0
 --- !u!82 &2220170953055962362
 AudioSource:
   m_ObjectHideFlags: 0
@@ -3955,6 +3967,7 @@ MonoBehaviour:
   muzzleFlash: {fileID: 0}
   shotSound: {fileID: 0}
   shotDamage: 0
+  adsZoom: 0
 --- !u!1001 &1282891964235773207
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4664,6 +4677,7 @@ MonoBehaviour:
   muzzleFlash: {fileID: 0}
   shotSound: {fileID: 0}
   shotDamage: 0
+  adsZoom: 0
 --- !u!1001 &3607209034626504680
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7257,6 +7271,9 @@ MonoBehaviour:
   - Type: 4
     SynchronizeType: 2
     Name: grounded
+  - Type: 4
+    SynchronizeType: 0
+    Name: switch
   m_SynchronizeLayers:
   - SynchronizeType: 0
     LayerIndex: 0

@@ -22,6 +22,8 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
     public CharacterController charCon;
     private Camera cam;
+    private Camera camGun;
+
     public float jumpForce = 10f, gravityMod = 2f;
     public Transform groundCheckPoint;
     private bool isGrounded;
@@ -62,6 +64,8 @@ public class PlayerController : MonoBehaviourPunCallbacks
     public float switchDelay = 0.75f;
     private float nextSwitch;
 
+    public float adsSpeed = 5f;
+
     public void Awake()
     {
         instance = this;
@@ -77,8 +81,9 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
         Cursor.lockState = CursorLockMode.Locked;
         cam = Camera.main;
+        camGun = GameObject.Find("gunCam").GetComponent<Camera>();
 
-        overheated.instance.TempSlider.maxValue = maxHeat;
+    overheated.instance.TempSlider.maxValue = maxHeat;
         //SwitchGun();
         photonView.RPC("SetGun", RpcTarget.All, selectedGun);
         //Transform newTrans = SpawnManager.instance.GetSpawnPoint();
@@ -99,23 +104,25 @@ public class PlayerController : MonoBehaviourPunCallbacks
     }
     void Update()
     {
+        
         if (photonView.IsMine/* && !overheated.instance.settingsScreen.activeInHierarchy*/) 
         {
         if (!overheated.instance.settingsScreen.activeInHierarchy)
+
             {
                 mouseInput = new Vector2(Input.GetAxisRaw("Mouse X"), Input.GetAxisRaw("Mouse Y")) * mouseSensitivity;
                 transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, transform.rotation.eulerAngles.y + mouseInput.x, transform.rotation.eulerAngles.z);
                 verticalRotStore += mouseInput.y;
-                verticalRotStore = Mathf.Clamp(verticalRotStore, -30f, 50f);
-                spine_verticalRotStore = Mathf.Clamp(verticalRotStore, -30f, 50f);
+                verticalRotStore = Mathf.Clamp(verticalRotStore, -20f, 40f);
+                spine_verticalRotStore = Mathf.Clamp(verticalRotStore, -20f, 40f);
                 //viewPoint.rotation = Quaternion.Euler(-verticalRotStore, viewPoint.rotation.eulerAngles.y, viewPoint.rotation.eulerAngles.z);
-                
+
                 //rightArmPoint.rotation = Quaternion.Euler(spine_verticalRotStore, rightArmPoint.rotation.eulerAngles.y, rightArmPoint.rotation.eulerAngles.z);
 
                 hipsPoint.rotation = Quaternion.Euler(-spine_verticalRotStore, hipsPoint.rotation.eulerAngles.y, hipsPoint.rotation.eulerAngles.z);
 
             }
-          
+
             moveDir = new Vector3(Input.GetAxisRaw("Horizontal"), 0f, Input.GetAxisRaw("Vertical"));
             if (Input.GetKey(KeyCode.LeftShift))
         {
@@ -250,7 +257,15 @@ public class PlayerController : MonoBehaviourPunCallbacks
         anim.SetBool("grounded", isGrounded);
         anim.SetFloat("speed", moveDir.magnitude);
 
-        
+        if (Input.GetMouseButton(1))
+        {
+            cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, allGuns[selectedGun].adsZoom, adsSpeed * Time.deltaTime);
+            camGun.fieldOfView = Mathf.Lerp(camGun.fieldOfView, allGuns[selectedGun].adsZoom, adsSpeed * Time.deltaTime);
+        } else
+        {
+            cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, 70f, adsSpeed * Time.deltaTime);
+            camGun.fieldOfView = Mathf.Lerp(camGun.fieldOfView, 70f, adsSpeed * Time.deltaTime);
+        }
 
     }
     void Shoot()
@@ -309,6 +324,8 @@ public class PlayerController : MonoBehaviourPunCallbacks
         //muzzleCounter = muzzleDisplayTime;
         StartCoroutine(Muzzle());
     }
+
+
     private IEnumerator Muzzle()
     {
         yield return new WaitForSeconds(0.5f);
