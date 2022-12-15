@@ -42,6 +42,7 @@ MonoBehaviour:
   - ShootingSound
   - MuzzleFlashing
   - StartGame
+  - UpAndDown
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 0

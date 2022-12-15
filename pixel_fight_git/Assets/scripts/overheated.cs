@@ -43,10 +43,32 @@ public class overheated : MonoBehaviour
 
     public AudioMixer audioMixerSound;
     public AudioMixer audioMixerMusic;
-
+    public TMP_Dropdown resolutionDropown;
+    Resolution[] resolutions;
     void Start()
     {
-        
+        resolutions = Screen.resolutions;
+
+        resolutionDropown.ClearOptions();
+
+        List<string> options = new List<string>();
+
+        int currentResolutionIndex = 0;
+
+        for (int i = 0; i < resolutions.Length; i++)
+        {
+            string option = resolutions[i].width + " x " + resolutions[i].height;
+            options.Add(option);
+
+            if (resolutions[i].width == Screen.currentResolution.width && resolutions[i].height == Screen.currentResolution.height)
+            {
+                currentResolutionIndex = i;
+            }
+        }
+
+        resolutionDropown.AddOptions(options);
+        resolutionDropown.value = currentResolutionIndex;
+        resolutionDropown.RefreshShownValue();
     }
 
     
@@ -134,4 +156,14 @@ public class overheated : MonoBehaviour
         audioMixerMusic.SetFloat("Volume", Mathf.Log10(volume) * 20);
     }
 
+    public void SetResolution(int resolutionIndex)
+    {
+        Resolution resolution = resolutions[resolutionIndex];
+        Screen.SetResolution(resolution.width, resolution.height, Screen.fullScreen);
+    }
+
+    public void SetFullScreen(bool isFullScreen)
+    {
+        Screen.fullScreen = isFullScreen;
+    }
 }
