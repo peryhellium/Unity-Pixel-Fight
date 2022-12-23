@@ -34,7 +34,7 @@ public class MultiplayerSpawner : MonoBehaviour
 
     public void Die(string damager)
     {
-        overheated.instance.deathText.text = "You were killed by " + damager;
+        UIcontroller.instance.deathText.text = "You were killed by " + damager;
         MatchManager.instance.UpdateStatsSend(PhotonNetwork.LocalPlayer.ActorNumber, 1, 1);
         isDead = true;
         if (player != null)
@@ -46,10 +46,10 @@ public class MultiplayerSpawner : MonoBehaviour
     {
         PhotonNetwork.Instantiate(deathEffect.name, player.transform.position, Quaternion.identity);
         PhotonNetwork.Destroy(player);
-        overheated.instance.deathScreen.SetActive(true);
+        UIcontroller.instance.deathScreen.SetActive(true);
 
         yield return new WaitForSeconds(respawnTime);
-        overheated.instance.deathScreen.SetActive(false);
+        UIcontroller.instance.deathScreen.SetActive(false);
         SpawnPlayer();
         isDead = false;
     }
@@ -59,7 +59,7 @@ public class MultiplayerSpawner : MonoBehaviour
         {
             respawnTime -= Time.deltaTime;
             string seconds = Mathf.FloorToInt(respawnTime % 60 + 1).ToString("0");
-            overheated.instance.timerText.text = seconds;
+            UIcontroller.instance.timerText.text = seconds;
         }
     }
 }

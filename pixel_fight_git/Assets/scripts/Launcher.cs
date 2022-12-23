@@ -42,9 +42,6 @@ public class Launcher : MonoBehaviourPunCallbacks
     public string levelToPlay;
     public GameObject startButton;
 
-    [SerializeField] private GameObject _loaderCanvas;
-    [SerializeField] private Image _progressBar;
-    private float _target;
     private PhotonView PhotonView;
 
     private void Awake()
@@ -88,9 +85,6 @@ public class Launcher : MonoBehaviourPunCallbacks
 
         PhotonNetwork.AutomaticallySyncScene = true;
 
-
-
-        //loadingText.text = "Joining Lobby...";
     }
 
     public override void OnJoinedLobby()
@@ -128,7 +122,7 @@ public class Launcher : MonoBehaviourPunCallbacks
         if (!string.IsNullOrEmpty(roomNameInput.text))
         {
             RoomOptions options = new();
-            options.MaxPlayers = 12;
+            options.MaxPlayers = 10;
 
             PhotonNetwork.CreateRoom(roomNameInput.text, options);
 
@@ -304,24 +298,6 @@ public class Launcher : MonoBehaviourPunCallbacks
 
     public async void StartGame()
     {
-        /*_target = 0;
-        _progressBar.fillAmount = 0;
-
-        var scene = SceneManager.LoadSceneAsync(levelToPlay);
-        scene.allowSceneActivation = false;
-
-        _loaderCanvas.SetActive(true);
-
-        do
-        {
-            await Task.Delay(10);
-            _target = scene.progress;
-        } while (scene.progress < 0.9f);
-
-        
-
-        scene.allowSceneActivation = true;
-        _loaderCanvas.SetActive(false);*/
 
         CloseMenus();
 
@@ -342,15 +318,6 @@ public class Launcher : MonoBehaviourPunCallbacks
     {
         Application.Quit();
     }
-
-    void Update()
-    {
-        //_progressBar.fillAmount = Mathf.MoveTowards(_progressBar.fillAmount, _target, 3 * Time.deltaTime);
-    }
-
-
-
-
 
 
 }
