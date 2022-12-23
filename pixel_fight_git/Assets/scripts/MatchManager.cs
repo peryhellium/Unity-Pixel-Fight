@@ -59,17 +59,10 @@ public class MatchManager : MonoBehaviourPunCallbacks, IOnEventCallback
         if (Input.GetKeyDown(KeyCode.Tab) && state != GameState.Ending)
         {
             ShowLeaderboard();
-            /*if (overheated.instance.leaderboard.activeInHierarchy)
-            {
-                overheated.instance.leaderboard.SetActive(false);
-            } else
-            {
-                ShowLeaderboard();
-            }*/ 
         }
         if (Input.GetKeyUp(KeyCode.Tab) && state != GameState.Ending)
         {
-            overheated.instance.leaderboard.SetActive(false);
+            UIcontroller.instance.leaderboard.SetActive(false);
         }
 
     }
@@ -240,7 +233,7 @@ public class MatchManager : MonoBehaviourPunCallbacks, IOnEventCallback
                 {
                     UpdateStatsDisplay();
                 }
-                if (overheated.instance.leaderboard.activeInHierarchy)
+                if (UIcontroller.instance.leaderboard.activeInHierarchy)
                 {
                     ShowLeaderboard();
                 }
@@ -256,18 +249,18 @@ public class MatchManager : MonoBehaviourPunCallbacks, IOnEventCallback
     {
         if (allPlayers.Count > index) {
 
-            overheated.instance.killsText.text = "Kills: " + allPlayers[index].kills;
-            overheated.instance.deathsText.text = "Deaths: " + allPlayers[index].deaths;
+            UIcontroller.instance.killsText.text = "Kills: " + allPlayers[index].kills;
+            UIcontroller.instance.deathsText.text = "Deaths: " + allPlayers[index].deaths;
         } else
         {
-            overheated.instance.killsText.text = "Kills: 0";
-            overheated.instance.deathsText.text = "Deaths: 0";
+            UIcontroller.instance.killsText.text = "Kills: 0";
+            UIcontroller.instance.deathsText.text = "Deaths: 0";
         }
     }
 
     void ShowLeaderboard()
     {
-        overheated.instance.leaderboard.SetActive(true);
+        UIcontroller.instance.leaderboard.SetActive(true);
 
         foreach (LeaderboardPlayer lp in lboardPlayers)
         {
@@ -275,13 +268,13 @@ public class MatchManager : MonoBehaviourPunCallbacks, IOnEventCallback
         }
         lboardPlayers.Clear();
 
-        overheated.instance.leaderboardPlayerDisplay.gameObject.SetActive(false);
+        UIcontroller.instance.leaderboardPlayerDisplay.gameObject.SetActive(false);
 
         List<PlayerInfo> sorted = SortPlayers(allPlayers);
 
         foreach (PlayerInfo player in sorted)
         {
-            LeaderboardPlayer newPlayerDIsplay = Instantiate(overheated.instance.leaderboardPlayerDisplay, overheated.instance.leaderboardPlayerDisplay.transform.parent);
+            LeaderboardPlayer newPlayerDIsplay = Instantiate(UIcontroller.instance.leaderboardPlayerDisplay, UIcontroller.instance.leaderboardPlayerDisplay.transform.parent);
 
             newPlayerDIsplay.SetDetails(player.name, player.kills, player.deaths);
 
@@ -371,7 +364,7 @@ public class MatchManager : MonoBehaviourPunCallbacks, IOnEventCallback
             PhotonNetwork.DestroyAll();
         }
 
-        overheated.instance.endScreen.SetActive(true);
+        UIcontroller.instance.endScreen.SetActive(true);
         ShowLeaderboard();
 
         Cursor.lockState = CursorLockMode.None;

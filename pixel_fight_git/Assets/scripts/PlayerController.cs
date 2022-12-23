@@ -10,7 +10,6 @@ public class PlayerController : MonoBehaviourPunCallbacks
     public Transform rightArmPoint;
     public Transform hipsPoint;
     public Transform headPoint;
-    //public Transform rigthArm;
 
     public float mouseSensitivity = 1f;
     private float verticalRotStore;
@@ -36,7 +35,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
     public float muzzleDisplayTime;
     private float muzzleCounter;
 
-    public float maxHeat = 12f, /*heatPerShot = 1f,*/ coolRate = 2f, overHeatCoolrate = 4f;
+    public float maxHeat = 12f, coolRate = 2f, overHeatCoolrate = 4f;
     private float heatCounter;
     private bool overHeated;
 
@@ -83,17 +82,13 @@ public class PlayerController : MonoBehaviourPunCallbacks
         cam = Camera.main;
         camGun = GameObject.Find("gunCam").GetComponent<Camera>();
 
-    overheated.instance.TempSlider.maxValue = maxHeat;
-        //SwitchGun();
+        UIcontroller.instance.TempSlider.maxValue = maxHeat;
         photonView.RPC("SetGun", RpcTarget.All, selectedGun);
-        //Transform newTrans = SpawnManager.instance.GetSpawnPoint();
-        //transform.position = newTrans.position;
-        //transform.rotation = newTrans.rotation;
         currentHealth = maxHealth;
         if (photonView.IsMine)
         {
-            overheated.instance.healthNumber.text = currentHealth.ToString();
-            //playerModel.SetActive(false);
+            UIcontroller.instance.healthNumber.text = currentHealth.ToString();
+
         } else
         {
             gunHolder.parent = modelGunPoint;
@@ -105,9 +100,9 @@ public class PlayerController : MonoBehaviourPunCallbacks
     void Update()
     {
         
-        if (photonView.IsMine/* && !overheated.instance.settingsScreen.activeInHierarchy*/) 
+        if (photonView.IsMine) 
         {
-        if (!overheated.instance.settingsScreen.activeInHierarchy)
+        if (!UIcontroller.instance.settingsScreen.activeInHierarchy)
 
             {
                 mouseInput = new Vector2(Input.GetAxisRaw("Mouse X"), Input.GetAxisRaw("Mouse Y")) * mouseSensitivity;
@@ -115,10 +110,6 @@ public class PlayerController : MonoBehaviourPunCallbacks
                 verticalRotStore += mouseInput.y;
                 verticalRotStore = Mathf.Clamp(verticalRotStore, -20f, 40f);
                 spine_verticalRotStore = Mathf.Clamp(verticalRotStore, -20f, 40f);
-                //viewPoint.rotation = Quaternion.Euler(-verticalRotStore, viewPoint.rotation.eulerAngles.y, viewPoint.rotation.eulerAngles.z);
-
-                //rightArmPoint.rotation = Quaternion.Euler(spine_verticalRotStore, rightArmPoint.rotation.eulerAngles.y, rightArmPoint.rotation.eulerAngles.z);
-
                 hipsPoint.rotation = Quaternion.Euler(-spine_verticalRotStore, hipsPoint.rotation.eulerAngles.y, hipsPoint.rotation.eulerAngles.z);
 
             }
@@ -182,12 +173,12 @@ public class PlayerController : MonoBehaviourPunCallbacks
             if (heatCounter <= 0)
             {
                 overHeated = false;
-                overheated.instance.overheatedMessage.gameObject.SetActive(false);
-                overheated.instance.crosshair.gameObject.SetActive(true);
+                UIcontroller.instance.overheatedMessage.gameObject.SetActive(false);
+                UIcontroller.instance.crosshair.gameObject.SetActive(true);
                 allGuns[selectedGun].gameObject.SetActive(true);
             }
         }
-        overheated.instance.TempSlider.value = heatCounter;
+            UIcontroller.instance.TempSlider.value = heatCounter;
         //switch guns
         if (Input.GetAxisRaw("Mouse ScrollWheel") > 0f)
         {
@@ -196,39 +187,24 @@ public class PlayerController : MonoBehaviourPunCallbacks
             {
                 selectedGun = 0;
             }
-                //SwitchGun(); 
-                photonView.RPC("SetGun", RpcTarget.All, selectedGun);
+            photonView.RPC("SetGun", RpcTarget.All, selectedGun);
             } else if(Input.GetAxisRaw("Mouse ScrollWheel") < 0f)
-        {
-            selectedGun--;
+            {
+                selectedGun--;
+
             if(selectedGun < 0)
             {
                 selectedGun = allGuns.Length -1;
             }
-                //SwitchGun();
                 photonView.RPC("SetGun", RpcTarget.All, selectedGun);
             }
         for(int i = 0; i <allGuns.Length; i++)
         {
             if(Input.GetKeyDown((i + 1).ToString())) {
                 selectedGun = i;
-                    //SwitchGun();
-                    photonView.RPC("SetGun", RpcTarget.All, selectedGun);
+                photonView.RPC("SetGun", RpcTarget.All, selectedGun);
                 }
         }
-        /*if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            Cursor.lockState = CursorLockMode.None;
-        }
-        else if (Cursor.lockState == CursorLockMode.None)
-        {
-            if (Input.GetMouseButtonDown(0) && !overheated.instance.settingsScreen.activeInHierarchy)
-            {
-                Cursor.lockState = CursorLockMode.Locked;
-            }
-        }*/
-
-
 
         }
 
@@ -240,7 +216,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
             {
                 if (hit.collider.gameObject.tag == "Player" && !photonView.IsMine) { 
                 crosshair.color = new Color(1, 0, 0, 0.75f);
-                overheated.instance.crosshair.color = new Color(1, 0, 0, 0.75f);
+                UIcontroller.instance.crosshair.color = new Color(1, 0, 0, 0.75f);
                 nicknameLabel.text = photonView.Owner.NickName;
                 nicknameLabel.color = Color.red;
                 nicknameLabel.transform.LookAt(Camera.main.transform.position);
@@ -249,7 +225,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
                 {
                     nicknameLabel.text = "";
                     crosshair.color = new Color(1, 1, 1, 0.75f);
-                    overheated.instance.crosshair.color = new Color(1, 1, 1, 0.75f);
+                    UIcontroller.instance.crosshair.color = new Color(1, 1, 1, 0.75f);
                 }
             }
         }
@@ -272,29 +248,22 @@ public class PlayerController : MonoBehaviourPunCallbacks
     {
         
         //check if not in Settings Menu
-        if (!overheated.instance.settingsScreen.activeInHierarchy) {
+        if (!UIcontroller.instance.settingsScreen.activeInHierarchy) {
             Vector2 bulletOffset = Random.insideUnitCircle * 20;
             Vector3 randomTarget = new Vector3(Screen.width / 2 + bulletOffset.x, Screen.height / 2 + bulletOffset.y, 0);
-            //Ray ray = cam.ViewportPointToRay(new Vector3(.5f, .5f, 0));
             Ray ray = Camera.main.ScreenPointToRay(randomTarget);
         ray.origin = cam.transform.position;
         if (Physics.Raycast(ray, out RaycastHit hit))
         {
             if(hit.collider.gameObject.tag == "Player")
             {
-                //Debug.Log("Hit " + hit.collider.gameObject.GetPhotonView().Owner.NickName);
                 PhotonNetwork.Instantiate(playerHitImpact.name, hit.point, Quaternion.identity);
                 hit.collider.gameObject.GetPhotonView().RPC("DealDamage", RpcTarget.All, photonView.Owner.NickName, allGuns[selectedGun].shotDamage, PhotonNetwork.LocalPlayer.ActorNumber);
             } else {
                 GameObject bulletImpactObject = Instantiate(bulletImpact, hit.point + (hit.normal * .002f), Quaternion.LookRotation(hit.normal, Vector3.up));
-                Destroy(bulletImpactObject, 2f);
+                Destroy(bulletImpactObject, 3f);
             }
-            GameObject hitObject = hit.transform.gameObject;
-            AnotherAI target = hitObject.GetComponent<AnotherAI>();
-            if (target != null)
-            {
-                target.ReactToHit();
-            }
+
         }
         shotCounter = allGuns[selectedGun].timeBetweenShots;
         cooldown = allGuns[selectedGun].timeBetweenShots;
@@ -303,8 +272,8 @@ public class PlayerController : MonoBehaviourPunCallbacks
         {
             heatCounter = maxHeat;
             overHeated = true;
-            overheated.instance.overheatedMessage.gameObject.SetActive(true);
-            overheated.instance.crosshair.gameObject.SetActive(false);
+            UIcontroller.instance.overheatedMessage.gameObject.SetActive(true);
+            UIcontroller.instance.crosshair.gameObject.SetActive(false);
             allGuns[selectedGun].gameObject.SetActive(false);
          }
         photonView.RPC("ShootingSound", RpcTarget.All);
@@ -349,11 +318,11 @@ public class PlayerController : MonoBehaviourPunCallbacks
                 currentHealth = 0;
                 MultiplayerSpawner.instance.Die(damager);
                 MatchManager.instance.UpdateStatsSend(actor, 0, 1);
-                overheated.instance.healthNumber.color = Color.white;
-                overheated.instance.healthNumber.fontStyle = TMPro.FontStyles.Normal;
+                UIcontroller.instance.healthNumber.color = Color.white;
+                UIcontroller.instance.healthNumber.fontStyle = TMPro.FontStyles.Normal;
             }
 
-            overheated.instance.healthNumber.text = currentHealth.ToString();
+            UIcontroller.instance.healthNumber.text = currentHealth.ToString();
             if (currentHealth > 0) { 
             StartCoroutine(BlinkText());
             }
@@ -363,11 +332,11 @@ public class PlayerController : MonoBehaviourPunCallbacks
     {
         for(int i = 0; i <= blinkTime; i++)
         {
-            overheated.instance.healthNumber.color = Color.red;
-            overheated.instance.healthNumber.fontStyle = TMPro.FontStyles.Bold;
+            UIcontroller.instance.healthNumber.color = Color.red;
+            UIcontroller.instance.healthNumber.fontStyle = TMPro.FontStyles.Bold;
             yield return new WaitForSeconds(.3f);
-            overheated.instance.healthNumber.fontStyle = TMPro.FontStyles.Normal;
-            overheated.instance.healthNumber.color = Color.white;
+            UIcontroller.instance.healthNumber.fontStyle = TMPro.FontStyles.Normal;
+            UIcontroller.instance.healthNumber.color = Color.white;
             yield return new WaitForSeconds(.3f);
         }
     }

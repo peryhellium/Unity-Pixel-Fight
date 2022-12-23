@@ -6,10 +6,10 @@ using UnityEngine.UI;
 using Photon.Pun;
 using UnityEngine.Audio;
 
-public class overheated : MonoBehaviour
+public class UIcontroller : MonoBehaviour
 {
 
-    public static overheated instance;
+    public static UIcontroller instance;
 
 
     private void Awake()
@@ -79,20 +79,7 @@ public class overheated : MonoBehaviour
             ShowHideMenu();
         }
 
-        /*if((settingsScreen.activeInHierarchy || optionScreen.activeInHierarchy) && Cursor.lockState != CursorLockMode.None)
-        {
-            Cursor.lockState = CursorLockMode.None;
-            Cursor.visible = true;
-        }
-        if (Cursor.lockState == CursorLockMode.None)
-        {
-            if (Input.GetMouseButtonDown(0) && !overheated.instance.settingsScreen.activeInHierarchy)
-            {
-                Cursor.lockState = CursorLockMode.Locked;
-            }
-        }*/
- 
-        }
+    }
 
     public void ShowHideMenu()
     {

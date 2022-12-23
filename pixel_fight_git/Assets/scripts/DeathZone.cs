@@ -33,8 +33,8 @@ public class DeathZone : MonoBehaviour
 
         if (phView.IsMine)
         {
-            overheated.instance.deathScreen.SetActive(true);
-            overheated.instance.deathText.text = "You were killed by yourself";
+            UIcontroller.instance.deathScreen.SetActive(true);
+            UIcontroller.instance.deathText.text = "You were killed by yourself";
             isDead = true;
             MatchManager.instance.UpdateStatsSend(PhotonNetwork.LocalPlayer.ActorNumber, 1, 1);
             PhotonNetwork.Instantiate(deathEffect.name, player.transform.position, Quaternion.identity);
@@ -43,7 +43,7 @@ public class DeathZone : MonoBehaviour
 
             yield return new WaitForSeconds(respawnTime);
             {
-                overheated.instance.deathScreen.SetActive(false);
+                UIcontroller.instance.deathScreen.SetActive(false);
                 isDead = false; 
                 SpawnPlayer();
                 
@@ -64,7 +64,7 @@ public class DeathZone : MonoBehaviour
         {
             respawnTime -= Time.deltaTime;
             string seconds = Mathf.FloorToInt(respawnTime % 60 + 1).ToString("0");
-            overheated.instance.timerText.text = seconds;
+            UIcontroller.instance.timerText.text = seconds;
         }
     }
 }
