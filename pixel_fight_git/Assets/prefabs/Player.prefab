@@ -116,6 +116,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   viewPoint: {fileID: 8302017591402812319}
+  rightArmPoint: {fileID: 0}
+  hipsPoint: {fileID: 0}
+  headPoint: {fileID: 0}
   mouseSensitivity: 1
   moveSpeed: 4
   runSpeed: 8
@@ -148,6 +151,8 @@ MonoBehaviour:
   hitted: {fileID: 0}
   nicknameLabel: {fileID: 0}
   crosshair: {fileID: 0}
+  switchDelay: 0.75
+  adsSpeed: 5
 --- !u!143 &8302017589705463848
 CharacterController:
   m_ObjectHideFlags: 0
@@ -218,6 +223,7 @@ MonoBehaviour:
   muzzleFlash: {fileID: 8300713493599342126}
   shotSound: {fileID: 0}
   shotDamage: 0
+  adsZoom: 0
 --- !u!1 &8302017589915823798
 GameObject:
   m_ObjectHideFlags: 0
@@ -353,6 +359,7 @@ MonoBehaviour:
   muzzleFlash: {fileID: 8300713495411080701}
   shotSound: {fileID: 0}
   shotDamage: 0
+  adsZoom: 0
 --- !u!1 &8302017590326542178
 GameObject:
   m_ObjectHideFlags: 0
@@ -441,6 +448,7 @@ MonoBehaviour:
   muzzleFlash: {fileID: 8300713495422419492}
   shotSound: {fileID: 0}
   shotDamage: 0
+  adsZoom: 0
 --- !u!1 &8302017591077499600
 GameObject:
   m_ObjectHideFlags: 0
@@ -493,6 +501,7 @@ MonoBehaviour:
   muzzleFlash: {fileID: 8300713494862139940}
   shotSound: {fileID: 0}
   shotDamage: 0
+  adsZoom: 0
 --- !u!1 &8302017591402812316
 GameObject:
   m_ObjectHideFlags: 0
@@ -577,6 +586,7 @@ MonoBehaviour:
   muzzleFlash: {fileID: 8300713495475358518}
   shotSound: {fileID: 0}
   shotDamage: 0
+  adsZoom: 0
 --- !u!1001 &1732090531427602378
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1613,6 +1623,7 @@ MonoBehaviour:
   muzzleFlash: {fileID: 0}
   shotSound: {fileID: 0}
   shotDamage: 0
+  adsZoom: 0
 --- !u!4 &8302017591040568815 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400000, guid: b5742c35cad19b945bc129c719875b2d,
