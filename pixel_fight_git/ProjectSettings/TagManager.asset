@@ -34,8 +34,8 @@ TagManager:
   - Invisible Wall
   - Projectile
   - GunLayer
-  - 
-  - 
+  - PostProcessing
+  - NoPostProcessing
   - 
   - 
   - 

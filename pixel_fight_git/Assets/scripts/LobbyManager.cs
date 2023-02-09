@@ -47,14 +47,14 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         {
             string roomName = roomList[i].Name;
             GameObject newButton = Instantiate(buttonPrefab,roomsPanel );
-            newButton.GetComponent<Button>().onClick.AddListener(() => roomSelector(roomName));
+            newButton.GetComponent<Button>().onClick.AddListener(() => RoomSelector(roomName));
             newButton.GetComponentInChildren<TMP_Text>().text = roomName;
 
             availableRooms.Add(newButton);
         }
     }
 
-    public void roomSelector(string roomName)
+    public void RoomSelector(string roomName)
     {
         selectedRoom = roomName;
     }

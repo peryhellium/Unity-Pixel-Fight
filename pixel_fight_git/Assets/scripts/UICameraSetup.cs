@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CameraSetup : MonoBehaviour
+public class UICameraSetup : MonoBehaviour
 {
 	Animator CameraObject;
 
@@ -14,22 +14,22 @@ public class CameraSetup : MonoBehaviour
 
     public void Position2()
     {
-        CameraObject.SetFloat("CamPos1", 1);
+        CameraObject.SetFloat("Play", 1);
     }
 
     public void Position1()
     {
-        CameraObject.SetFloat("CamPos1", 0);
+        CameraObject.SetFloat("Play", 0);
     }
 
     public void Position4()
     {
-        CameraObject.SetFloat("CamPos2", 1);
+        CameraObject.SetFloat("Settings", 1);
     }
 
     public void Position3()
     {
-        CameraObject.SetFloat("CamPos2", 0);
+        CameraObject.SetFloat("Settings", 0);
     }
 
 }

@@ -13,7 +13,21 @@ public class SettingsMainMenu : MonoBehaviour
     public TMP_Dropdown selectedResolution;
     public Toggle fullscreenToggle;
 
-    private Vector2Int resolutionResolver(string resolution){
+    public void Start()
+    {
+        float volume = 15;
+        globalSound.value = volume;
+        mainMenuMusic.volume = volume / 100;
+        shootSound.volume = volume / 100;
+        reloadSound.volume = volume / 100;
+
+        Screen.SetResolution(1920, 1080, false);
+        selectedResolution.value = 4;
+
+        fullscreenToggle.isOn = false;
+    }
+
+    private Vector2Int ResolutionResolver(string resolution){
         string[] temp = resolution.Split(char.Parse("x"));
         return new Vector2Int(int.Parse(temp[0]), int.Parse(temp[1]));
     }
@@ -23,7 +37,7 @@ public class SettingsMainMenu : MonoBehaviour
         shootSound.volume = globalSound.value / 100;
         reloadSound.volume = globalSound.value / 100;
 
-        Vector2Int resolution = resolutionResolver(selectedResolution.captionText.text);
+        Vector2Int resolution = ResolutionResolver(selectedResolution.captionText.text);
         Screen.SetResolution(resolution.x, resolution.y, fullscreenToggle.isOn);
     }
 }
