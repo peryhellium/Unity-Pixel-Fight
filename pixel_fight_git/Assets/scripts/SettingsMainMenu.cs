@@ -32,12 +32,24 @@ public class SettingsMainMenu : MonoBehaviour
         return new Vector2Int(int.Parse(temp[0]), int.Parse(temp[1]));
     }
 
-    public void Apply(){
+    public void Update()
+    {
         mainMenuMusic.volume = globalSound.value / 100;
         shootSound.volume = globalSound.value / 100;
         reloadSound.volume = globalSound.value / 100;
 
+        
         Vector2Int resolution = ResolutionResolver(selectedResolution.captionText.text);
-        Screen.SetResolution(resolution.x, resolution.y, fullscreenToggle.isOn);
+
+        if (Screen.width != resolution.x || Screen.height != resolution.y)
+        {
+            Screen.SetResolution(resolution.x, resolution.y, Screen.fullScreen);
+        }
+        
+        if (Screen.fullScreen != fullscreenToggle.isOn)
+        {
+            Screen.SetResolution(Screen.width, Screen.height, fullscreenToggle.isOn);
+        }
+
     }
 }
